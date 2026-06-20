@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+  role      String   @default("developer")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects  Project[]
+  apiKeys   ApiKey[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKeys    ApiKey[]
+  rules      Rule[]
+  incidents  Incident[]
+  patches    PatchHistory[]
+  patchCache PatchCache[]
+  alerts     Alert[]
+}
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  name      String
+  projectId String
+  userId    String
+  lastUsed  DateTime?
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Rule {
+  id        String   @id @default(cuid())
+  projectId String
+  type      String   // "protected" | "safe" | "custom"
+  field     String
+  action    String   // "block" | "allow" | "warn"
+  createdAt DateTime @default(now())
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Incident {
+  id          String   @id @default(cuid())
+  projectId   String
+  endpoint    String
+  method      String   @default("GET")
+  severity    String   @default("medium") // "critical" | "high" | "medium" | "low"
+  driftType   String   // "missing_field" | "new_field" | "type_change" | "rename" | "nullability" | "enum_change"
+  expectedSchema String
+  actualSchema   String
+  confidence  Float    @default(0)
+  status      String   @default("open") // "open" | "investigating" | "resolved" | "dismissed"
+  autoFixed   Boolean  @default(false)
+  patchId     String?  @unique
+  metadata    String?  // JSON string for extra data
+  createdAt   DateTime @default(now())
+  resolvedAt  DateTime?
+
+  project     Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  patch       PatchHistory?
+}
+
+model PatchHistory {
+  id          String   @id @default(cuid())
+  projectId   String
+  incidentId  String?  @unique
+  endpoint    String
+  patchType   String   // "rename" | "remove" | "add_default" | "type_conversion"
+  fromPath    String
+  toPath      String
+  confidence  Float
+  success     Boolean  @default(true)
+  appliedAt   DateTime @default(now())
+  rolledBack  Boolean  @default(false)
+
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  incident    Incident? @relation(fields: [incidentId], references: [id])
+}
+
+model PatchCache {
+  id          String   @id @default(cuid())
+  projectId   String
+  cacheKey    String   @unique
+  endpoint    String
+  method      String
+  host        String
+  responseSignature String
+  patchData   String   // JSON string of patch operations
+  confidence  Float
+  hitCount    Int      @default(0)
+  valid       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  lastUsed    DateTime @default(now())
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  projectId   String
+  type        String   // "email" | "slack" | "discord" | "webhook"
+  channel     String   // endpoint URL or email
+  event       String   // "critical_drift" | "patch_failure" | "low_confidence"
+  message     String
+  sent        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model UsageMetric {
+  id              String   @id @default(cuid())
+  projectId       String
+  date            DateTime
+  requestsMonitored Int    @default(0)
+  driftsDetected    Int    @default(0)
+  autoFixed         Int    @default(0)
+  aiCalls           Int    @default(0)
+  cacheHits         Int    @default(0)
+  cacheMisses       Int    @default(0)
+
+  @@unique([projectId, date])
+}
