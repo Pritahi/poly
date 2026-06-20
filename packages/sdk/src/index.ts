@@ -24,6 +24,7 @@ import {
   invalidateCache,
   invalidateEndpoint,
   clearCache as clearPatchCache,
+  getCacheStats,
 } from "./cache";
 
 const DEFAULT_ENDPOINT = "https://api.poly.dev";
@@ -173,8 +174,7 @@ export const Poly = {
    * Get cache statistics
    */
   getCacheStats(): { size: number; totalHits: number } {
-    const { size, totalHits } = require("./cache").getCacheStats();
-    return { size, totalHits };
+    return getCacheStats();
   },
 };
 

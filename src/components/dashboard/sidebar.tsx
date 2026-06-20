@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  FlaskConical,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -28,6 +29,7 @@ export type PageId =
   | "usage"
   | "rules"
   | "sdk"
+  | "test-lab"
   | "settings";
 
 interface NavItem {
@@ -45,6 +47,7 @@ const navItems: NavItem[] = [
   { id: "usage", label: "Usage", icon: <BarChart3 className="h-4 w-4" /> },
   { id: "rules", label: "Rules", icon: <Shield className="h-4 w-4" /> },
   { id: "sdk", label: "SDK", icon: <Code2 className="h-4 w-4" /> },
+  { id: "test-lab", label: "Test Lab", icon: <FlaskConical className="h-4 w-4" /> },
   { id: "settings", label: "Settings", icon: <Settings className="h-4 w-4" /> },
 ];
 

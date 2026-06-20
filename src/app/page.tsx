@@ -10,6 +10,7 @@ import { PatchHistoryPage } from "@/components/dashboard/patch-history";
 import { UsagePage } from "@/components/dashboard/usage";
 import { RulesPage } from "@/components/dashboard/rules";
 import { SdkDocsPage } from "@/components/dashboard/sdk-docs";
+import { TestLabPage } from "@/components/dashboard/test-lab";
 import { SettingsPage } from "@/components/dashboard/settings";
 
 const pageComponents: Record<PageId, React.ComponentType> = {
@@ -21,6 +22,7 @@ const pageComponents: Record<PageId, React.ComponentType> = {
   usage: UsagePage,
   rules: RulesPage,
   sdk: SdkDocsPage,
+  "test-lab": TestLabPage,
   settings: SettingsPage,
 };
 
