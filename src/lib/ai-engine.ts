@@ -1,7 +1,6 @@
 // Poly - AI Mapping Engine (inline, replaces separate microservice)
 // Rules run BEFORE AI. Protected fields are NEVER modified.
 
-import { chat } from "z-ai-web-dev-sdk";
 import { PatchOperation } from "./types";
 
 const PROTECTED_FIELDS = ["amount", "price", "currency", "payment_status", "auth_token", "order_id"];
@@ -100,6 +99,7 @@ export async function aiMapping(
   rules: Array<{ type: string; field: string; action: string }>
 ): Promise<PatchOperation[]> {
   try {
+    const { chat } = await import("z-ai-web-dev-sdk");
     const prompt = `You are Poly, an AI mapping engine that generates safe field mappings for API schema drift.
 
 STRICT RULES:
