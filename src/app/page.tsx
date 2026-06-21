@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { DashboardSidebar, PageId } from "@/components/dashboard/sidebar";
+import { LandingPage } from "@/components/dashboard/landing";
 import { OverviewPage } from "@/components/dashboard/overview";
 import { ProjectsPage } from "@/components/dashboard/projects";
 import { ApiKeysPage } from "@/components/dashboard/api-keys";
@@ -27,7 +28,13 @@ const pageComponents: Record<PageId, React.ComponentType> = {
 };
 
 export default function Dashboard() {
+  const [showDashboard, setShowDashboard] = useState(false);
   const [activePage, setActivePage] = useState<PageId>("overview");
+
+  if (!showDashboard) {
+    return <LandingPage onEnterDashboard={() => setShowDashboard(true)} />;
+  }
+
   const PageComponent = pageComponents[activePage];
 
   return (

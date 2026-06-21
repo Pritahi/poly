@@ -141,8 +141,7 @@ exports.Poly = {
      * Get cache statistics
      */
     getCacheStats() {
-        const { size, totalHits } = require("./cache").getCacheStats();
-        return { size, totalHits };
+        return (0, cache_1.getCacheStats)();
     },
 };
 // ─── INTERNAL ──────────────────────────────────────────────
