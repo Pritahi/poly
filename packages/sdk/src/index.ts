@@ -79,8 +79,8 @@ export const Poly = {
 
     // Add response interceptor
     axios.interceptors.response.use(
-      (response) => {
-        handleResponse(response.config as Record<string, unknown>, response.data);
+      async (response) => {
+        await handleResponse(response.config as Record<string, unknown>, response.data);
         return response;
       },
       (error) => {
@@ -230,7 +230,7 @@ async function handleResponse(
     if (cachedPatches) {
       // Apply cached patches locally
       if (!config.dryRun) {
-        applyPatches(responseData, cachedPatches);
+        Object.assign(responseData as Record<string,unknown>, applyPatches(responseData, cachedPatches) as Record<string,unknown>);
       }
       return;
     }
@@ -250,7 +250,7 @@ async function handleResponse(
 
     // 7. Apply patches if confidence is above threshold
     if (analysisResult.confidence >= getConfidenceThreshold() && !config.dryRun) {
-      applyPatches(responseData, analysisResult.mapping);
+      Object.assign(responseData as Record<string,unknown>, applyPatches(responseData, analysisResult.mapping) as Record<string,unknown>);
 
       for (const patch of analysisResult.mapping) {
         emit("patch", patch);
