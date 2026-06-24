@@ -5,7 +5,7 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -15,7 +15,7 @@ COPY . .
 
 # Use project's own Prisma (v6), NOT npx which pulls latest v7
 RUN ./node_modules/.bin/prisma generate
-RUN npm run build
+RUN ./node_modules/.bin/next build
 
 # Production image
 FROM base AS runner
