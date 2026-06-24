@@ -1,13 +1,144 @@
-import { PrismaClient } from '@prisma/client'
+import { supabase } from "./supabase";
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
+// ==========================================
+// Supabase-based DB wrapper with Prisma-like API
+// ==========================================
+
+type Filter = Record<string, any>;
+
+async function findMany(table: string, options?: { where?: Filter; orderBy?: Record<string, string> }) {
+  let query = supabase.from(table).select("*");
+  if (options?.where) {
+    Object.entries(options.where).forEach(([key, value]) => {
+      query = query.eq(key, value);
+    });
+  }
+  if (options?.orderBy) {
+    Object.entries(options.orderBy).forEach(([col, dir]) => {
+      query = dir === "asc" ? query.order(col, { ascending: true }) : query.order(col, { ascending: false });
+    });
+  }
+  const { data, error } = await query;
+  if (error) throw error;
+  return data || [];
 }
 
-export const db =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: ['query'],
-  })
+async function count(table: string, where?: Filter) {
+  let query = supabase.from(table).select("*", { count: "exact", head: true });
+  if (where) {
+    Object.entries(where).forEach(([key, value]) => {
+      query = query.eq(key, value);
+    });
+  }
+  const { count, error } = await query;
+  if (error) throw error;
+  return count || 0;
+}
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
+async function create(table: string, data: any) {
+  const { data: result, error } = await supabase.from(table).insert(data).select().single();
+  if (error) throw error;
+  return result;
+}
+
+async function createMany(table: string, data: any[]) {
+  const { data: result, error } = await supabase.from(table).insert(data).select();
+  if (error) throw error;
+  return result;
+}
+
+async function update(table: string, where: Filter, data: any) {
+  let query = supabase.from(table).update(data).select().single();
+  Object.entries(where).forEach(([key, value]) => {
+    query = query.eq(key, value);
+  });
+  const { data: result, error } = await query;
+  if (error) throw error;
+  return result;
+}
+
+async function remove(table: string, where: Filter) {
+  let query = supabase.from(table).delete();
+  Object.entries(where).forEach(([key, value]) => {
+    query = query.eq(key, value);
+  });
+  const { error } = await query;
+  if (error) throw error;
+}
+
+async function findFirst(table: string, where: Filter) {
+  let query = supabase.from(table).select("*").limit(1).single();
+  Object.entries(where).forEach(([key, value]) => {
+    query = query.eq(key, value);
+  });
+  const { data, error } = await query;
+  if (error && error.code !== "PGRST116") throw error;
+  return data || null;
+}
+
+async function upsert(table: string, data: any) {
+  const { data: result, error } = await supabase.from(table).upsert(data).select().single();
+  if (error) throw error;
+  return result;
+}
+
+async function groupBy(table: string, column: string) {
+  const { data, error } = await supabase.from(table).select(column);
+  if (error) throw error;
+  const counts: Record<string, number> = {};
+  data?.forEach((row: any) => {
+    const val = row[column];
+    counts[val] = (counts[val] || 0) + 1;
+  });
+  return counts;
+}
+
+// ==========================================
+// Typed model builders matching Prisma's API
+// ==========================================
+
+function model(name: string) {
+  return {
+    findMany: (options?: any) => findMany(name, options),
+    findFirst: async (options?: { where?: Filter }) => {
+      return findFirst(name, options?.where || {});
+    },
+    count: (options?: { where?: Filter }) => {
+      return count(name, options?.where);
+    },
+    create: (options: { data: any }) => {
+      return create(name, options.data);
+    },
+    createMany: (options: { data: any[] }) => {
+      return createMany(name, options.data);
+    },
+    update: (options: { where: Filter; data: any }) => {
+      return update(name, options.where, options.data);
+    },
+    delete: (options: { where: Filter }) => {
+      return remove(name, options.where);
+    },
+    upsert: (options: { where: Filter; create: any; update: any }) => {
+      return upsert(name, { ...options.where, ...options.create, ...options.update });
+    },
+    groupBy: (options: { by: string[] }) => {
+      return groupBy(name, options.by[0]);
+    },
+  };
+}
+
+// ==========================================
+// DB export — same API as PrismaClient
+// ==========================================
+
+export const db = {
+  user: model("User"),
+  project: model("Project"),
+  apiKey: model("ApiKey"),
+  rule: model("Rule"),
+  incident: model("Incident"),
+  patchHistory: model("PatchHistory"),
+  patchCache: model("PatchCache"),
+  alert: model("Alert"),
+  usageMetric: model("UsageMetric"),
+};
