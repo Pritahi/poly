@@ -7,4 +7,5 @@ healthcheckTimeout = 300
 restartPolicyType = "on_failure"
 
 [variables]
-DATABASE_URL = "postgresql://postgres:justjuatjustjust@db.idyspefcwqpdnpvqrjtv.supabase.co:5432/postgres?sslmode=require"
+# Default: SQLite for dev. Override in Railway Dashboard for Supabase.
+DATABASE_URL = "file:./db/production.db"
