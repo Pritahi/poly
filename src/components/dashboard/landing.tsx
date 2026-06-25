@@ -384,21 +384,11 @@ export function LandingPage({
           </a>
 
           <div className="flex items-center gap-3">
-            <a
-              href="https://github.com/Pritahi121/poly"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
-              aria-label="Poly on GitHub"
-            >
-              <Github className="h-3.5 w-3.5" />
-              <span>GitHub</span>
-            </a>
             <code
               className="hidden sm:inline text-xs text-zinc-400 bg-white/[0.06] px-3 py-2 rounded-lg font-mono select-all"
-              aria-label="Install command: npm i github:Pritahi121/poly-sdk"
+              aria-label="Install command: npm i poly-sdk"
             >
-              npm i github:Pritahi121/poly-sdk
+              npm i poly-sdk
             </code>
             <Button
               size="sm"
@@ -1313,15 +1303,6 @@ export function LandingPage({
                   Get started free
                   <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
                 </Button>
-                <a
-                  href="https://github.com/Pritahi121/poly"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
-                >
-                  <Github className="h-4 w-4" />
-                  Star on GitHub
-                </a>
               </div>
             </div>
           </ScrollReveal>
@@ -1352,7 +1333,7 @@ export function LandingPage({
                   />
                 </Button>
                 <code className="text-xs text-zinc-500 bg-white/[0.05] px-4 py-2.5 rounded-lg font-mono border border-white/[0.08] select-all">
-                  npm i github:Pritahi121/poly-sdk
+                  npm i poly-sdk
                 </code>
               </div>
             </div>
@@ -1409,17 +1390,6 @@ export function LandingPage({
                 Community
               </h4>
               <ul className="space-y-2.5">
-                <li>
-                  <a
-                    href="https://github.com/Pritahi121/poly"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors inline-flex items-center gap-1.5"
-                  >
-                    <Github className="h-3.5 w-3.5" />
-                    GitHub
-                  </a>
-                </li>
                 <li>
                   <a href="#" className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors inline-flex items-center gap-1.5">
                     <MessageCircle className="h-3.5 w-3.5" />

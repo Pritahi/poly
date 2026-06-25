@@ -174,7 +174,7 @@ export function ApiKeysPage() {
         <CardContent>
           <div className="bg-muted rounded-lg p-4 font-mono text-sm space-y-2">
             <p className="text-muted-foreground">{"// 1. Install the SDK"}</p>
-            <p>npm i github:Pritahi121/poly-sdk</p>
+            <p>npm i poly-sdk</p>
             <p className="text-muted-foreground mt-2">{"// 2. Initialize and wrap your HTTP client"}</p>
             <p>{"import { Poly } from 'pritpolytt-sdk'"}</p>
             <p>{"Poly.init({ apiKey: 'poly_live_xxx' })"}</p>
