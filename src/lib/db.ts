@@ -6,17 +6,40 @@ import { supabase } from "./supabase";
 
 type Filter = Record<string, any>;
 
-async function findMany(table: string, options?: { where?: Filter; orderBy?: Record<string, string> }) {
+// Helper: apply a where clause with operator support (eq, gte, lte, gt, lt)
+function applyWhere(query: any, key: string, value: any): any {
+  if (value !== null && typeof value === "object" && !Array.isArray(value) && !(value instanceof Date)) {
+    // Operator object: { gte: Date } or { lt: number }
+    for (const [op, opVal] of Object.entries(value)) {
+      switch (op) {
+        case "gte": query = query.gte(key, opVal); break;
+        case "lte": query = query.lte(key, opVal); break;
+        case "gt": query = query.gt(key, opVal); break;
+        case "lt": query = query.lt(key, opVal); break;
+        case "neq": query = query.neq(key, opVal); break;
+        default: query = query.eq(key, value); // fallback
+      }
+    }
+  } else {
+    query = query.eq(key, value);
+  }
+  return query;
+}
+
+async function findMany(table: string, options?: { where?: Filter; orderBy?: Record<string, string>; take?: number }) {
   let query = supabase.from(table).select("*");
   if (options?.where) {
     Object.entries(options.where).forEach(([key, value]) => {
-      query = query.eq(key, value);
+      query = applyWhere(query, key, value);
     });
   }
   if (options?.orderBy) {
     Object.entries(options.orderBy).forEach(([col, dir]) => {
       query = dir === "asc" ? query.order(col, { ascending: true }) : query.order(col, { ascending: false });
     });
+  }
+  if (options?.take) {
+    query = query.limit(options.take);
   }
   const { data, error } = await query;
   if (error) throw error;
@@ -27,7 +50,7 @@ async function count(table: string, where?: Filter) {
   let query = supabase.from(table).select("*", { count: "exact", head: true });
   if (where) {
     Object.entries(where).forEach(([key, value]) => {
-      query = query.eq(key, value);
+      query = applyWhere(query, key, value);
     });
   }
   const { count, error } = await query;
@@ -69,7 +92,7 @@ async function remove(table: string, where: Filter) {
 async function findFirst(table: string, where: Filter) {
   let query = supabase.from(table).select("*").limit(1).single();
   Object.entries(where).forEach(([key, value]) => {
-    query = query.eq(key, value);
+    query = applyWhere(query, key, value);
   });
   const { data, error } = await query;
   if (error && error.code !== "PGRST116") throw error;
