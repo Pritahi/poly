@@ -90,8 +90,8 @@ export function OverviewPage() {
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="border border-gray-200 bg-white p-5 animate-pulse">
-              <div className="h-16 bg-gray-100" />
+            <div key={i} className="border border-border bg-white p-5 animate-pulse">
+              <div className="h-16 bg-muted" />
             </div>
           ))}
         </div>
@@ -99,19 +99,19 @@ export function OverviewPage() {
     );
   }
 
-  if (!data) return <p className="text-gray-500 text-sm">Failed to load dashboard data</p>;
+  if (!data) return <p className="text-muted-foreground text-sm">Failed to load dashboard data</p>;
 
   const { stats, severityBreakdown, driftTypeBreakdown, recentIncidents, timeSeries } = data;
 
   const kpiCards = [
-    { title: "Requests Monitored", value: stats.requestsMonitored.toLocaleString(), icon: <Eye className="h-3.5 w-3.5" />, desc: "Total tracked", color: "text-black" },
+    { title: "Requests Monitored", value: stats.requestsMonitored.toLocaleString(), icon: <Eye className="h-3.5 w-3.5" />, desc: "Total tracked", color: "" },
     { title: "Drifts Detected", value: stats.driftsDetected.toLocaleString(), icon: <AlertTriangle className="h-3.5 w-3.5" />, desc: `${stats.openIncidents} open`, color: "text-orange-600" },
     { title: "Auto-Fixed", value: stats.totalAutoFixed.toLocaleString(), icon: <CheckCircle2 className="h-3.5 w-3.5" />, desc: `${stats.totalAutoFixed > 0 && stats.driftsDetected > 0 ? Math.round((stats.totalAutoFixed / stats.driftsDetected) * 100) : 0}% fix rate`, color: "text-emerald-600" },
     { title: "AI Calls", value: stats.aiCalls.toLocaleString(), icon: <Cpu className="h-3.5 w-3.5" />, desc: "Mapping invocations", color: "text-violet-600" },
-    { title: "Cache Hits", value: stats.cacheHits.toLocaleString(), icon: <Database className="h-3.5 w-3.5" />, desc: `${stats.cacheHitRatio}% ratio`, color: "text-black" },
-    { title: "Projects", value: stats.projects.toString(), icon: <TrendingUp className="h-3.5 w-3.5" />, desc: `${stats.activeApiKeys} keys active`, color: "text-black" },
+    { title: "Cache Hits", value: stats.cacheHits.toLocaleString(), icon: <Database className="h-3.5 w-3.5" />, desc: `${stats.cacheHitRatio}% ratio`, color: "" },
+    { title: "Projects", value: stats.projects.toString(), icon: <TrendingUp className="h-3.5 w-3.5" />, desc: `${stats.activeApiKeys} keys active`, color: "" },
     { title: "Patches", value: stats.successfulPatches.toString(), icon: <Zap className="h-3.5 w-3.5" />, desc: `${stats.cachedPatches} cached`, color: "text-amber-600" },
-    { title: "Open Incidents", value: stats.openIncidents.toString(), icon: <Activity className="h-3.5 w-3.5" />, desc: `${stats.totalIncidents} total`, color: "text-black" },
+    { title: "Open Incidents", value: stats.openIncidents.toString(), icon: <Activity className="h-3.5 w-3.5" />, desc: `${stats.totalIncidents} total`, color: "" },
   ];
 
   const severityData = [
@@ -124,29 +124,29 @@ export function OverviewPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold tracking-tight text-black">Overview</h2>
-        <p className="text-gray-500 text-sm mt-0.5">API schema health at a glance</p>
+        <h2 className="text-xl font-bold tracking-tight ">Overview</h2>
+        <p className="text-muted-foreground text-sm mt-0.5">API schema health at a glance</p>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {kpiCards.map((card) => (
-          <div key={card.title} className="border border-gray-200 bg-white p-4">
+          <div key={card.title} className="border border-border bg-white p-4">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">{card.title}</span>
+              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{card.title}</span>
               <span className={card.color}>{card.icon}</span>
             </div>
-            <div className="text-2xl font-bold text-black tabular-nums mt-1">{card.value}</div>
-            <p className="text-[11px] text-gray-400 mt-0.5">{card.desc}</p>
+            <div className="text-2xl font-bold  tabular-nums mt-1">{card.value}</div>
+            <p className="text-[11px] text-muted-foreground mt-0.5">{card.desc}</p>
           </div>
         ))}
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <div className="lg:col-span-2 border border-gray-200 bg-white p-5">
-          <h3 className="text-sm font-bold text-black mb-4">Request & Drift Activity</h3>
-          <p className="text-[11px] text-gray-400 -mt-3 mb-4">30-day trend</p>
+        <div className="lg:col-span-2 border border-border bg-white p-5">
+          <h3 className="text-sm font-bold  mb-4">Request & Drift Activity</h3>
+          <p className="text-[11px] text-muted-foreground -mt-3 mb-4">30-day trend</p>
           <div className="h-60">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={timeSeries}>
@@ -154,15 +154,15 @@ export function OverviewPage() {
                 <XAxis dataKey="date" tick={{ fontSize: 10 }} tickFormatter={(v: string) => v.slice(5)} stroke="#d4d4d4" />
                 <YAxis tick={{ fontSize: 10 }} stroke="#d4d4d4" />
                 <Tooltip contentStyle={{ borderRadius: 0, border: "1px solid #e5e5e5", boxShadow: "none", fontSize: 12 }} />
-                <Area type="monotone" dataKey="requests" stroke="#000" fill="#000" fillOpacity={0.05} strokeWidth={1.5} name="Requests" />
+                <Area type="monotone" dataKey="requests" stroke="var(--foreground)" fill="var(--foreground)" fillOpacity={0.05} strokeWidth={1.5} name="Requests" />
                 <Area type="monotone" dataKey="drifts" stroke="#f97316" fill="#f97316" fillOpacity={0.05} strokeWidth={1.5} name="Drifts" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="border border-gray-200 bg-white p-5">
-          <h3 className="text-sm font-bold text-black mb-4">Severity</h3>
+        <div className="border border-border bg-white p-5">
+          <h3 className="text-sm font-bold  mb-4">Severity</h3>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -179,7 +179,7 @@ export function OverviewPage() {
             {severityData.map((d) => (
               <div key={d.name} className="flex items-center gap-1.5 text-[11px]">
                 <div className="h-2 w-2" style={{ backgroundColor: d.color }} />
-                <span className="text-gray-500">{d.name}: {d.value}</span>
+                <span className="text-muted-foreground">{d.name}: {d.value}</span>
               </div>
             ))}
           </div>
@@ -187,22 +187,22 @@ export function OverviewPage() {
       </div>
 
       {/* Recent Incidents */}
-      <div className="border border-gray-200 bg-white p-5">
-        <h3 className="text-sm font-bold text-black mb-1">Recent Incidents</h3>
-        <p className="text-[11px] text-gray-400 mb-4">Latest schema drift events</p>
+      <div className="border border-border bg-white p-5">
+        <h3 className="text-sm font-bold  mb-1">Recent Incidents</h3>
+        <p className="text-[11px] text-muted-foreground mb-4">Latest schema drift events</p>
         <div className="space-y-2 max-h-56 overflow-y-auto">
           {recentIncidents.length === 0 ? (
-            <p className="text-xs text-gray-400 text-center py-8">No incidents detected yet</p>
+            <p className="text-xs text-muted-foreground text-center py-8">No incidents detected yet</p>
           ) : (
             recentIncidents.map((inc) => (
-              <div key={inc.id} className="flex items-center justify-between p-3 border border-gray-100 hover:bg-gray-50 transition-colors">
+              <div key={inc.id} className="flex items-center justify-between p-3 border border-border hover:bg-muted transition-colors">
                 <div className="flex items-center gap-3 min-w-0">
-                  <Badge variant="outline" className="text-[10px] rounded-none border-gray-200" style={{ color: SEVERITY_COLORS[inc.severity] || "#000" }}>
+                  <Badge variant="outline" className="text-[10px] rounded-none border-border" style={{ color: SEVERITY_COLORS[inc.severity] || "var(--foreground)" }}>
                     {inc.severity}
                   </Badge>
                   <div className="min-w-0">
-                    <p className="text-xs font-medium text-black truncate">{inc.endpoint}</p>
-                    <p className="text-[10px] text-gray-400">{inc.driftType.replace(/_/g, " ")} · {Math.round(inc.confidence)}% confidence</p>
+                    <p className="text-xs font-medium  truncate">{inc.endpoint}</p>
+                    <p className="text-[10px] text-muted-foreground">{inc.driftType.replace(/_/g, " ")} · {Math.round(inc.confidence)}% confidence</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-2">
