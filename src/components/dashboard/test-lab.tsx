@@ -156,7 +156,7 @@ export function TestLabPage() {
         <CardContent>
           <div className="relative group">
             <pre className="bg-zinc-900 text-zinc-100 rounded-lg p-4 text-sm font-mono overflow-x-auto">
-{`npm i github:Pritahi121/poly-sdk axios
+{`npm i github:Pritahi/poly-sdk axios
 
 // In your code:
 import { Poly } from "pritpolytt-sdk"
@@ -167,7 +167,7 @@ Poly.wrap(axios)
 
 // Now all axios calls are monitored!`}
             </pre>
-            <Button variant="ghost" size="sm" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-zinc-800 text-zinc-300" onClick={() => copyCode(`npm i github:Pritahi121/poly-sdk axios`)}>
+            <Button variant="ghost" size="sm" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-zinc-800 text-zinc-300" onClick={() => copyCode(`npm i github:Pritahi/poly-sdk axios`)}>
               <Copy className="h-3 w-3" />
             </Button>
           </div>
