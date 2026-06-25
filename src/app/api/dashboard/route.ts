@@ -94,7 +94,7 @@ export async function GET() {
       })),
     });
   } catch (error) {
-    const msg = error instanceof Error ? error.message : String(error);
+    const msg = error instanceof Error ? error.message : JSON.stringify(error);
     console.error("Dashboard API error:", msg);
     return NextResponse.json({ error: "Failed to load dashboard", detail: msg }, { status: 500 });
   }
