@@ -155,7 +155,7 @@ const PHASES: SimPhase[] = [
 /* ──────────────── Code Block ──────────────── */
 function CodeBlock({ label, lines }: { label: string; lines: string[] }) {
   return (
-    <div className="rounded-xl bg-primary border border-gray-800 overflow-hidden shadow-lg">
+    <div className="rounded-xl bg-transparent p-0 border border-gray-800 overflow-hidden shadow-lg">
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-gray-800">
         <div className="flex gap-1.5" aria-hidden="true">
           <Circle className="h-2.5 w-2.5 fill-red-500 text-red-500" />
@@ -255,7 +255,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/80 border-b border-border">
         <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2 rounded-md" aria-label="Poly home">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">P</div>
+            <div className="h-8 w-8 rounded-lg bg-transparent p-0 flex items-center justify-center text-primary-foreground font-bold text-sm">P</div>
             <span className="font-bold text-lg tracking-tight text-gray-900">Poly</span>
           </a>
           <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
               npm i github:Pritahi/poly-sdk
             </code>
             <Button size="sm" onClick={onEnterDashboard}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl px-4 h-10">
+              className="bg-transparent p-0 hover:bg-transparent p-0/90 text-primary-foreground font-semibold rounded-xl px-4 h-10">
               Dashboard <ChevronRight className="h-3.5 w-3.5 ml-1" />
             </Button>
           </div>
@@ -310,7 +310,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
 
               <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
                 <Button size="lg" onClick={onEnterDashboard}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-xl px-8 h-12 shadow-lg shadow-gray-200 hover:shadow-gray-300 transition-all hover:scale-[1.02]">
+                  className="bg-transparent p-0 hover:bg-transparent p-0/90 text-primary-foreground font-semibold text-base rounded-xl px-8 h-12 shadow-lg shadow-gray-200 hover:shadow-gray-300 transition-all hover:scale-[1.02]">
                   Open Dashboard <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -400,7 +400,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
             {/* Controls */}
             <div className="flex items-center justify-center gap-3 mb-6 sm:mb-8">
               <Button onClick={startSim} disabled={isPlaying} size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-11 px-6 shadow-lg shadow-gray-200 disabled:opacity-50">
+                className="bg-transparent p-0 hover:bg-transparent p-0/90 text-primary-foreground rounded-xl h-11 px-6 shadow-lg shadow-gray-200 disabled:opacity-50">
                 <Play className="h-4 w-4 mr-2" /> {isPlaying ? "Running..." : "Run Demo"}
               </Button>
               <AnimatePresence>
@@ -687,7 +687,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
                 <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> Priority support</span>
               </div>
               <Button size="lg" onClick={onEnterDashboard}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl px-8 h-12 shadow-lg shadow-gray-200">
+                className="bg-transparent p-0 hover:bg-transparent p-0/90 text-primary-foreground font-semibold rounded-xl px-8 h-12 shadow-lg shadow-gray-200">
                 Get started free <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             </div>
@@ -706,7 +706,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button size="lg" onClick={onEnterDashboard}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-xl px-8 h-12 shadow-lg shadow-gray-200">
+                  className="bg-transparent p-0 hover:bg-transparent p-0/90 text-primary-foreground font-semibold text-base rounded-xl px-8 h-12 shadow-lg shadow-gray-200">
                   Open Dashboard <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
                 <code className="text-xs text-muted-foreground bg-muted px-4 py-2.5 rounded-lg font-mono border border-border select-all">
@@ -750,7 +750,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-border">
             <div className="flex items-center gap-2">
-              <div className="h-5 w-5 rounded bg-primary flex items-center justify-center text-primary-foreground text-[10px] font-bold">P</div>
+              <div className="h-5 w-5 rounded bg-transparent p-0 flex items-center justify-center text-primary-foreground text-[10px] font-bold">P</div>
               <span className="text-sm text-muted-foreground">Poly — Survive Third-Party API Changes</span>
             </div>
             <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Poly · MIT License · v1.0.0</p>
