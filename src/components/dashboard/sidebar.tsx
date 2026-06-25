@@ -87,8 +87,8 @@ export function DashboardSidebar({ activePage, onNavigate }: DashboardSidebarPro
     >
       {/* Logo */}
       <div className="flex items-center gap-2 px-4 h-14 border-b border-border">
-        <div className="flex items-center justify-center h-7 w-7 p-0 overflow-hidden bg-transparent">
-          <img src="/logo.png" alt="Poly" className="h-7 w-7 object-contain" />
+        <div className="flex items-center justify-center h-7 w-7 bg-primary text-primary-foreground font-bold text-xs">
+          <Zap className="h-3.5 w-3.5" />
         </div>
         {!collapsed && <span className="font-bold text-lg tracking-tight ">Poly</span>}
       </div>
