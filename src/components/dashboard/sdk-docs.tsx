@@ -57,13 +57,13 @@ export function SdkDocsPage() {
               <TabsTrigger value="pnpm">pnpm</TabsTrigger>
             </TabsList>
             <TabsContent value="npm">
-              <CodeBlock language="bash" code={`npm i poly-sdk`} />
+              <CodeBlock language="bash" code={`npm i github:Pritahi121/poly-sdk`} />
             </TabsContent>
             <TabsContent value="yarn">
-              <CodeBlock language="bash" code={`yarn add poly-sdk`} />
+              <CodeBlock language="bash" code={`yarn add github:Pritahi121/poly-sdk`} />
             </TabsContent>
             <TabsContent value="pnpm">
-              <CodeBlock language="bash" code={`pnpm add poly-sdk`} />
+              <CodeBlock language="bash" code={`pnpm add github:Pritahi121/poly-sdk`} />
             </TabsContent>
           </Tabs>
           <div className="mt-4">

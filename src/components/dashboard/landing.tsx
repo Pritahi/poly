@@ -386,9 +386,9 @@ export function LandingPage({
           <div className="flex items-center gap-3">
             <code
               className="hidden sm:inline text-xs text-zinc-400 bg-white/[0.06] px-3 py-2 rounded-lg font-mono select-all"
-              aria-label="Install command: npm i poly-sdk"
+              aria-label="Install command: npm i github:Pritahi121/poly-sdk"
             >
-              npm i poly-sdk
+              npm i github:Pritahi121/poly-sdk
             </code>
             <Button
               size="sm"
@@ -1333,7 +1333,7 @@ export function LandingPage({
                   />
                 </Button>
                 <code className="text-xs text-zinc-500 bg-white/[0.05] px-4 py-2.5 rounded-lg font-mono border border-white/[0.08] select-all">
-                  npm i poly-sdk
+                  npm i github:Pritahi121/poly-sdk
                 </code>
               </div>
             </div>
