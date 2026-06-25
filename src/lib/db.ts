@@ -90,7 +90,11 @@ async function groupBy(table: string, column: string) {
     const val = row[column];
     counts[val] = (counts[val] || 0) + 1;
   });
-  return counts;
+  // Return Prisma-compatible format: [{column: "val", _count: {column: N}}]
+  return Object.entries(counts).map(([key, count]) => ({
+    [column]: key,
+    _count: { [column]: count },
+  }));
 }
 
 // ==========================================
