@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
-  Zap,
   ArrowRight,
   Shield,
   Eye,
@@ -20,7 +19,6 @@ import {
   ChevronRight,
   Bug,
   Wrench,
-  Github,
   BookOpen,
   MessageCircle,
   ExternalLink,
@@ -30,6 +28,7 @@ import {
   TrendingUp,
   Bell,
   Layers,
+  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -212,7 +211,7 @@ function CodeBlock({
   lines: string[];
 }) {
   return (
-    <div className="rounded-xl bg-[#09090b] border border-white/[0.06] overflow-hidden">
+    <div className="rounded-xl bg-[#0a0a0c] border border-white/[0.06] overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06]">
         <div className="flex gap-1.5" aria-hidden="true">
           <div className="h-2.5 w-2.5 rounded-full bg-red-500/40" />
@@ -231,14 +230,14 @@ function CodeBlock({
             line.includes("DRIFT") ||
             line.includes("CRASH")
           )
-            colorClass = "text-red-400";
+            colorClass = "text-rose-400";
           else if (
             line.includes("✓") ||
             line.includes("✅") ||
             line.includes("WORKS") ||
             line.includes("John Doe")
           )
-            colorClass = "text-emerald-400";
+            colorClass = "text-teal-400";
           else if (
             line.includes("EXPECTED") ||
             line.includes("GOT") ||
@@ -246,7 +245,7 @@ function CodeBlock({
             line.includes("Confidence") ||
             line.includes("Mapping")
           )
-            colorClass = "text-purple-300";
+            colorClass = "text-sky-300";
           return (
             <div key={i} className="flex">
               <span
@@ -267,11 +266,11 @@ function CodeBlock({
 /* ──────────────────────── Architecture Diagram ──────────────────────── */
 function ArchitectureDiagram() {
   const boxes = [
-    { label: "Your App", icon: <Layers className="h-4 w-4" />, color: "border-blue-500/30 bg-blue-500/5 text-blue-400" },
-    { label: "Poly SDK", icon: <Shield className="h-4 w-4" />, color: "border-purple-500/30 bg-purple-500/10 text-purple-400" },
+    { label: "Your App", icon: <Layers className="h-4 w-4" />, color: "border-sky-500/30 bg-sky-500/5 text-sky-400" },
+    { label: "Poly SDK", icon: <Shield className="h-4 w-4" />, color: "border-teal-500/30 bg-teal-500/10 text-teal-400" },
     { label: "Intercept", icon: <Activity className="h-4 w-4" />, color: "border-amber-500/30 bg-amber-500/5 text-amber-400" },
-    { label: "Detect Drift", icon: <Eye className="h-4 w-4" />, color: "border-red-500/30 bg-red-500/5 text-red-400" },
-    { label: "AI Cloud", icon: <Cpu className="h-4 w-4" />, color: "border-purple-500/30 bg-purple-500/5 text-purple-400" },
+    { label: "Detect Drift", icon: <Eye className="h-4 w-4" />, color: "border-rose-500/30 bg-rose-500/5 text-rose-400" },
+    { label: "AI Cloud", icon: <Cpu className="h-4 w-4" />, color: "border-violet-500/30 bg-violet-500/5 text-violet-400" },
     { label: "Patch", icon: <Wrench className="h-4 w-4" />, color: "border-emerald-500/30 bg-emerald-500/5 text-emerald-400" },
     { label: "Your Code", icon: <CheckCircle2 className="h-4 w-4" />, color: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" },
   ];
@@ -354,24 +353,24 @@ export function LandingPage({
   const activePhase = PHASES[phaseIdx] ?? null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#09090b] text-[#fafafa] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#070708] text-[#fafafa] overflow-x-hidden">
       {/* ───────── Skip to content (a11y) ───────── */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-purple-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-teal-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium"
       >
         Skip to main content
       </a>
 
       {/* ───────── Header / Navbar ───────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#09090b]/70 border-b border-white/[0.06]">
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#070708]/70 border-b border-white/[0.05]">
         <nav
           aria-label="Primary navigation"
           className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between"
         >
           <a
             href="#"
-            className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-md"
+            className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 rounded-md"
             aria-label="Poly home"
           >
             <img
@@ -385,7 +384,7 @@ export function LandingPage({
 
           <div className="flex items-center gap-3">
             <code
-              className="hidden sm:inline text-xs text-zinc-400 bg-white/[0.06] px-3 py-2 rounded-lg font-mono select-all"
+              className="hidden sm:inline text-xs text-zinc-400 bg-white/[0.04] px-3 py-2 rounded-lg font-mono select-all border border-white/[0.05]"
               aria-label="Install command: npm i github:Pritahi121/poly-sdk"
             >
               npm i github:Pritahi121/poly-sdk
@@ -394,7 +393,7 @@ export function LandingPage({
               size="sm"
               onClick={onEnterDashboard}
               aria-label="Open Poly Dashboard"
-              className="bg-[#a78bfa] hover:bg-[#8b5cf6] text-[#09090b] font-semibold rounded-lg px-4 h-11 min-w-[44px]"
+              className="bg-teal-400 hover:bg-teal-300 text-[#070708] font-semibold rounded-lg px-4 h-11 min-w-[44px]"
             >
               Dashboard
               <ChevronRight className="h-3.5 w-3.5 ml-1" aria-hidden="true" />
@@ -408,13 +407,24 @@ export function LandingPage({
         {/* ───────── Hero Section ───────── */}
         <section
           aria-label="Introduction"
-          className="relative pt-16 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6"
+          className="relative pt-20 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6"
         >
-          {/* Glow orbs */}
+          {/* Glow orbs — teal & violet */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-            <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full bg-purple-600/[0.07] blur-[120px]" />
-            <div className="absolute -top-20 right-1/4 w-[400px] h-[400px] rounded-full bg-cyan-500/[0.05] blur-[100px]" />
+            <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full bg-teal-500/[0.06] blur-[130px]" />
+            <div className="absolute -top-20 right-1/4 w-[450px] h-[450px] rounded-full bg-violet-500/[0.05] blur-[110px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-emerald-500/[0.03] blur-[80px]" />
           </div>
+
+          {/* Grid pattern */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.015]"
+            aria-hidden="true"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+              backgroundSize: '48px 48px',
+            }}
+          />
 
           <div className="relative max-w-4xl mx-auto text-center">
             <motion.div
@@ -426,10 +436,10 @@ export function LandingPage({
               <motion.div variants={fadeUp} custom={0}>
                 <Badge
                   variant="outline"
-                  className="border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-medium mb-8 px-4 py-1.5 rounded-full"
+                  className="border-teal-500/25 bg-teal-500/[0.08] text-teal-300 text-xs font-medium mb-8 px-4 py-1.5 rounded-full"
                 >
                   <Zap className="h-3 w-3 mr-1.5" aria-hidden="true" />
-                  V1 — Now Live on npm
+                  V1 — Now Live
                 </Badge>
               </motion.div>
 
@@ -438,9 +448,9 @@ export function LandingPage({
                 custom={1}
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] mb-6"
               >
-                Third-party APIs break.
+                APIs break.
                 <br />
-                <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-teal-300 via-emerald-300 to-sky-400 bg-clip-text text-transparent">
                   Your code doesn&apos;t have to.
                 </span>
               </motion.h1>
@@ -467,7 +477,7 @@ export function LandingPage({
                   size="lg"
                   onClick={onEnterDashboard}
                   aria-label="Open the Poly Dashboard"
-                  className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500 text-white font-semibold text-base rounded-xl px-8 h-12 min-h-[44px] shadow-lg shadow-purple-500/20 transition-all hover:shadow-purple-500/30 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
+                  className="bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-300 hover:to-emerald-400 text-[#070708] font-semibold text-base rounded-xl px-8 h-12 min-h-[44px] shadow-lg shadow-teal-500/20 transition-all hover:shadow-teal-500/30 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070708]"
                 >
                   Open Dashboard
                   <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
@@ -484,9 +494,9 @@ export function LandingPage({
 
             {/* ───────── Stats Bar ───────── */}
             <div ref={statsRef} className="max-w-2xl mx-auto">
-              <div className="grid grid-cols-3 gap-3 sm:gap-6 py-5 px-4 sm:px-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm">
+              <div className="grid grid-cols-3 gap-3 sm:gap-6 py-5 px-4 sm:px-8 rounded-2xl border border-white/[0.05] bg-white/[0.015] backdrop-blur-sm">
                 <StatItem value={25000} suffix="+" label="APIs monitored" inView={statsInView} />
-                <StatItem value={99.7} suffix="%" label="Drift catch rate" inView={statsInView} />
+                <StatItem value={99} suffix=".7%" label="Drift catch rate" inView={statsInView} />
                 <StatItem value={5} suffix="ms" label="Latency overhead" inView={statsInView} />
               </div>
             </div>
@@ -503,33 +513,33 @@ export function LandingPage({
               {/* Without Poly */}
               <ScrollReveal>
                 <article
-                  className="rounded-2xl border border-red-500/20 bg-red-500/[0.03] p-5 sm:p-8 h-full"
+                  className="rounded-2xl border border-rose-500/15 bg-rose-500/[0.02] p-5 sm:p-8 h-full"
                   aria-label="Without Poly: what happens when APIs break"
                 >
                   <div className="flex items-center gap-2 mb-4">
                     <div
-                      className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center"
+                      className="h-8 w-8 rounded-lg bg-rose-500/10 flex items-center justify-center"
                       aria-hidden="true"
                     >
-                      <Bug className="h-4 w-4 text-red-400" />
+                      <Bug className="h-4 w-4 text-rose-400" />
                     </div>
-                    <h2 className="font-bold text-red-400 text-lg">
+                    <h2 className="font-bold text-rose-400 text-lg">
                       Without Poly
                     </h2>
                   </div>
                   <div className="space-y-3 text-sm text-zinc-400 leading-relaxed">
                     <p>
                       Third-party API renames a field from{" "}
-                      <code className="text-red-300 bg-red-500/10 px-1.5 py-0.5 rounded text-xs">
+                      <code className="text-rose-300 bg-rose-500/10 px-1.5 py-0.5 rounded text-xs">
                         name
                       </code>{" "}
                       to{" "}
-                      <code className="text-red-300 bg-red-500/10 px-1.5 py-0.5 rounded text-xs">
+                      <code className="text-rose-300 bg-rose-500/10 px-1.5 py-0.5 rounded text-xs">
                         full_name
                       </code>
                       . Your app crashes in production at 3 AM.
                     </p>
-                    <div className="bg-[#0c0c0e] rounded-xl p-4 border border-white/[0.06]">
+                    <div className="bg-[#0a0a0c] rounded-xl p-4 border border-white/[0.05]">
                       <CodeBlock
                         label="crash.log"
                         lines={[
@@ -545,30 +555,15 @@ export function LandingPage({
                       aria-label="Consequences of API breakage"
                     >
                       <li className="flex items-center gap-2.5">
-                        <span
-                          className="text-red-400 font-bold"
-                          aria-hidden="true"
-                        >
-                          ✗
-                        </span>
+                        <span className="text-rose-400 font-bold" aria-hidden="true">✗</span>
                         Page breaks for all users
                       </li>
                       <li className="flex items-center gap-2.5">
-                        <span
-                          className="text-red-400 font-bold"
-                          aria-hidden="true"
-                        >
-                          ✗
-                        </span>
+                        <span className="text-rose-400 font-bold" aria-hidden="true">✗</span>
                         Emergency deploys at midnight
                       </li>
                       <li className="flex items-center gap-2.5">
-                        <span
-                          className="text-red-400 font-bold"
-                          aria-hidden="true"
-                        >
-                          ✗
-                        </span>
+                        <span className="text-rose-400 font-bold" aria-hidden="true">✗</span>
                         Angry customers, lost revenue
                       </li>
                     </ul>
@@ -579,7 +574,7 @@ export function LandingPage({
               {/* With Poly */}
               <ScrollReveal delay={0.1}>
                 <article
-                  className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-5 sm:p-8 h-full"
+                  className="rounded-2xl border border-emerald-500/15 bg-emerald-500/[0.02] p-5 sm:p-8 h-full"
                   aria-label="With Poly: automatic drift detection and patching"
                 >
                   <div className="flex items-center gap-2 mb-4">
@@ -602,7 +597,7 @@ export function LandingPage({
                       </span>
                       .
                     </p>
-                    <div className="bg-[#0c0c0e] rounded-xl p-4 border border-white/[0.06]">
+                    <div className="bg-[#0a0a0c] rounded-xl p-4 border border-white/[0.05]">
                       <CodeBlock
                         label="output.log"
                         lines={[
@@ -618,30 +613,15 @@ export function LandingPage({
                       aria-label="Benefits of using Poly"
                     >
                       <li className="flex items-center gap-2.5">
-                        <span
-                          className="text-emerald-400 font-bold"
-                          aria-hidden="true"
-                        >
-                          ✓
-                        </span>
+                        <span className="text-emerald-400 font-bold" aria-hidden="true">✓</span>
                         Zero downtime, instant fix
                       </li>
                       <li className="flex items-center gap-2.5">
-                        <span
-                          className="text-emerald-400 font-bold"
-                          aria-hidden="true"
-                        >
-                          ✓
-                        </span>
+                        <span className="text-emerald-400 font-bold" aria-hidden="true">✓</span>
                         No deploy needed
                       </li>
                       <li className="flex items-center gap-2.5">
-                        <span
-                          className="text-emerald-400 font-bold"
-                          aria-hidden="true"
-                        >
-                          ✓
-                        </span>
+                        <span className="text-emerald-400 font-bold" aria-hidden="true">✓</span>
                         Users never notice anything
                       </li>
                     </ul>
@@ -652,7 +632,7 @@ export function LandingPage({
           </div>
         </section>
 
-        {/* ───────── Interactive Demo (MOVED UP) ───────── */}
+        {/* ───────── Interactive Demo ───────── */}
         <section
           ref={simRef}
           aria-labelledby="demo-heading"
@@ -689,7 +669,7 @@ export function LandingPage({
                 disabled={isPlaying}
                 size="lg"
                 aria-label={isPlaying ? "Simulation is running" : "Run the drift detection demo"}
-                className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500 text-white rounded-xl h-11 min-h-[44px] px-6 focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
+                className="bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-300 hover:to-emerald-400 text-[#070708] rounded-xl h-11 min-h-[44px] px-6 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070708]"
               >
                 <Play className="h-4 w-4 mr-2" aria-hidden="true" />
                 {isPlaying ? "Running..." : "Run Demo"}
@@ -707,12 +687,9 @@ export function LandingPage({
                       variant="outline"
                       size="lg"
                       aria-label="Reset simulation"
-                      className="rounded-xl h-11 min-h-[44px] px-6 border-white/[0.1] text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.05] focus-visible:ring-2 focus-visible:ring-purple-400"
+                      className="rounded-xl h-11 min-h-[44px] px-6 border-white/[0.08] text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-teal-400"
                     >
-                      <RotateCcw
-                        className="h-4 w-4 mr-2"
-                        aria-hidden="true"
-                      />
+                      <RotateCcw className="h-4 w-4 mr-2" aria-hidden="true" />
                       Reset
                     </Button>
                   </motion.div>
@@ -722,14 +699,14 @@ export function LandingPage({
 
             {/* Demo Panel */}
             <div
-              className="rounded-2xl border border-white/[0.08] bg-[#0c0c0e] overflow-hidden"
+              className="rounded-2xl border border-white/[0.06] bg-[#0a0a0c] overflow-hidden"
               role="region"
               aria-label="Drift detection simulation"
               aria-live="polite"
             >
               {/* Flow progress bar */}
               <div
-                className="flex items-center border-b border-white/[0.06] px-3 sm:px-4 py-3 gap-1 overflow-x-auto"
+                className="flex items-center border-b border-white/[0.05] px-3 sm:px-4 py-3 gap-1 overflow-x-auto"
                 aria-label="Simulation progress"
                 role="tablist"
               >
@@ -749,42 +726,32 @@ export function LandingPage({
                         className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium whitespace-nowrap transition-all duration-500 ${
                           isActive
                             ? phase.id === "drift"
-                              ? "bg-red-500/15 text-red-400 border border-red-500/30"
-                              : "bg-purple-500/15 text-purple-400 border border-purple-500/30"
+                              ? "bg-rose-500/15 text-rose-400 border border-rose-500/25"
+                              : "bg-teal-500/15 text-teal-400 border border-teal-500/25"
                             : isDone
                             ? "bg-emerald-500/10 text-emerald-500"
                             : "text-zinc-600"
                         }`}
                       >
                         {isDone ? (
-                          <CheckCircle2
-                            className="h-3 w-3"
-                            aria-hidden="true"
-                          />
+                          <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
                         ) : (
                           <span
                             className={`h-2 w-2 rounded-full ${
                               isActive
                                 ? phase.id === "drift"
-                                  ? "bg-red-400 animate-pulse"
-                                  : "bg-purple-400 animate-pulse"
+                                  ? "bg-rose-400 animate-pulse"
+                                  : "bg-teal-400 animate-pulse"
                                 : "bg-zinc-700"
                             }`}
                             aria-hidden="true"
                           />
                         )}
-                        <span className="hidden sm:inline">
-                          {phase.title}
-                        </span>
-                        <span className="sm:hidden">
-                          {phase.title.split(" ")[0]}
-                        </span>
+                        <span className="hidden sm:inline">{phase.title}</span>
+                        <span className="sm:hidden">{phase.title.split(" ")[0]}</span>
                       </div>
                       {i < 4 && (
-                        <ChevronRight
-                          className="h-3 w-3 text-zinc-700 shrink-0"
-                          aria-hidden="true"
-                        />
+                        <ChevronRight className="h-3 w-3 text-zinc-700 shrink-0" aria-hidden="true" />
                       )}
                     </div>
                   );
@@ -796,16 +763,14 @@ export function LandingPage({
                 {simStep === "idle" ? (
                   <div className="text-center space-y-3 py-4">
                     <div
-                      className="h-16 w-16 rounded-2xl bg-purple-500/10 flex items-center justify-center mx-auto mb-4"
+                      className="h-16 w-16 rounded-2xl bg-teal-500/10 flex items-center justify-center mx-auto mb-4"
                       aria-hidden="true"
                     >
-                      <Play className="h-7 w-7 text-purple-400" />
+                      <Play className="h-7 w-7 text-teal-400" />
                     </div>
                     <p className="text-zinc-400 text-sm px-4">
                       Click{" "}
-                      <strong className="text-zinc-200">
-                        &quot;Run Demo&quot;
-                      </strong>{" "}
+                      <strong className="text-zinc-200">&quot;Run Demo&quot;</strong>{" "}
                       to see Poly detect and fix a real API breaking change
                     </p>
                   </div>
@@ -824,26 +789,26 @@ export function LandingPage({
                         <div
                           className={`h-10 w-10 rounded-xl shrink-0 flex items-center justify-center ${
                             simStep === "drift"
-                              ? "bg-red-500/15"
+                              ? "bg-rose-500/15"
                               : simStep === "done"
                               ? "bg-emerald-500/15"
-                              : "bg-purple-500/15"
+                              : "bg-teal-500/15"
                           }`}
                           aria-hidden="true"
                         >
                           {simStep === "drift" ? (
-                            <AlertTriangle className="h-5 w-5 text-red-400" />
+                            <AlertTriangle className="h-5 w-5 text-rose-400" />
                           ) : simStep === "done" ? (
                             <CheckCircle2 className="h-5 w-5 text-emerald-400" />
                           ) : (
-                            <Terminal className="h-5 w-5 text-purple-400" />
+                            <Terminal className="h-5 w-5 text-teal-400" />
                           )}
                         </div>
                         <div>
                           <h3
                             className={`text-base sm:text-lg font-bold ${
                               simStep === "drift"
-                                ? "text-red-400"
+                                ? "text-rose-400"
                                 : simStep === "done"
                                 ? "text-emerald-400"
                                 : "text-white"
@@ -871,13 +836,10 @@ export function LandingPage({
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 }}
-                          className="flex items-center gap-3 bg-emerald-500/[0.08] border border-emerald-500/20 rounded-xl px-4 sm:px-5 py-4"
+                          className="flex items-center gap-3 bg-emerald-500/[0.06] border border-emerald-500/15 rounded-xl px-4 sm:px-5 py-4"
                           role="status"
                         >
-                          <CheckCircle2
-                            className="h-5 w-5 text-emerald-400 shrink-0"
-                            aria-hidden="true"
-                          />
+                          <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" aria-hidden="true" />
                           <div>
                             <p className="text-sm font-semibold text-emerald-300">
                               Patch applied successfully
@@ -895,7 +857,7 @@ export function LandingPage({
                 )}
               </div>
             </div>
-            </div>{/* close mascot flex wrapper */}
+            </div>
             {/* Mobile mascot (below demo) */}
             <div className="flex lg:hidden justify-center mt-8">
               <PolyMascot currentStep={simStep} />
@@ -925,7 +887,7 @@ export function LandingPage({
 
             {/* Architecture Diagram */}
             <ScrollReveal delay={0.1} className="mb-12 sm:mb-16">
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 sm:p-10">
+              <div className="rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 sm:p-10">
                 <ArchitectureDiagram />
               </div>
             </ScrollReveal>
@@ -940,38 +902,38 @@ export function LandingPage({
                     title: "Detect",
                     color: "text-amber-400",
                     bg: "bg-amber-500/10",
-                    border: "border-amber-500/20",
+                    border: "border-amber-500/15",
                     desc: "SDK intercepts every API response and compares it against the learned schema baseline. Detects 7 types of drift — field renames, type changes, removals, and more.",
                   },
                   {
                     num: "02",
                     icon: <Cpu className="h-5 w-5" />,
                     title: "Analyze",
-                    color: "text-purple-400",
-                    bg: "bg-purple-500/10",
-                    border: "border-purple-500/20",
+                    color: "text-violet-400",
+                    bg: "bg-violet-500/10",
+                    border: "border-violet-500/15",
                     desc: "Only schema metadata is sent to Poly Cloud. AI generates a safe mapping with a confidence score. Protected fields like prices and auth tokens are never touched.",
                   },
                   {
                     num: "03",
                     icon: <GitBranch className="h-5 w-5" />,
                     title: "Patch",
-                    color: "text-cyan-400",
-                    bg: "bg-cyan-500/10",
-                    border: "border-cyan-500/20",
+                    color: "text-sky-400",
+                    bg: "bg-sky-500/10",
+                    border: "border-sky-500/15",
                     desc: "The response is transformed locally in-memory before your application code sees it. The patch is cached — no repeated AI calls. Your code keeps working.",
                   },
                 ] as const
               ).map((step, idx) => (
                 <ScrollReveal key={step.num} delay={idx * 0.1}>
                   <div
-                    className={`relative rounded-2xl border ${step.border} bg-white/[0.02] p-5 sm:p-8 transition-all hover:bg-white/[0.04] focus-within:ring-2 focus-within:ring-purple-400/50 h-full`}
+                    className={`relative rounded-2xl border ${step.border} bg-white/[0.015] p-5 sm:p-8 transition-all hover:bg-white/[0.03] focus-within:ring-2 focus-within:ring-teal-400/50 h-full`}
                     tabIndex={0}
                     role="article"
                     aria-label={`Step ${step.num}: ${step.title}`}
                   >
                     <span
-                      className="text-5xl font-black text-white/[0.04] absolute top-4 right-6"
+                      className="text-5xl font-black text-white/[0.03] absolute top-4 right-6"
                       aria-hidden="true"
                     >
                       {step.num}
@@ -982,9 +944,7 @@ export function LandingPage({
                     >
                       {step.icon}
                     </div>
-                    <h3
-                      className={`text-base sm:text-lg font-bold ${step.color} mb-2`}
-                    >
+                    <h3 className={`text-base sm:text-lg font-bold ${step.color} mb-2`}>
                       {step.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
@@ -1045,12 +1005,12 @@ export function LandingPage({
               </p>
             </ScrollReveal>
 
-            {/* Bento Grid — alternating layouts */}
+            {/* Bento Grid */}
             <div className="space-y-4">
               {/* Row 1: 2 large cards */}
               <div className="grid md:grid-cols-2 gap-4">
                 <ScrollReveal>
-                  <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 sm:p-8 transition-all hover:bg-white/[0.04] hover:border-white/[0.12] h-full flex flex-col">
+                  <div className="group rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 sm:p-8 transition-all hover:bg-white/[0.03] hover:border-white/[0.1] h-full flex flex-col">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="h-10 w-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform shrink-0">
                         <Eye className="h-5 w-5" />
@@ -1076,9 +1036,9 @@ export function LandingPage({
                 </ScrollReveal>
 
                 <ScrollReveal delay={0.05}>
-                  <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 sm:p-8 transition-all hover:bg-white/[0.04] hover:border-white/[0.12] h-full flex flex-col">
+                  <div className="group rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 sm:p-8 transition-all hover:bg-white/[0.03] hover:border-white/[0.1] h-full flex flex-col">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="h-10 w-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform shrink-0">
+                      <div className="h-10 w-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shrink-0">
                         <Shield className="h-5 w-5" />
                       </div>
                       <div>
@@ -1091,7 +1051,7 @@ export function LandingPage({
                       protected. Poly will never include them in AI analysis —
                       guaranteed.
                     </p>
-                    <div className="mt-4 flex items-center gap-2 text-[10px] text-red-400/70 font-mono bg-red-500/[0.06] rounded-lg px-3 py-2 border border-red-500/10">
+                    <div className="mt-4 flex items-center gap-2 text-[10px] text-rose-400/70 font-mono bg-rose-500/[0.05] rounded-lg px-3 py-2 border border-rose-500/10">
                       <Lock className="h-3 w-3 shrink-0" />
                       protected_fields: [&quot;price&quot;, &quot;token&quot;, &quot;ssn&quot;]
                     </div>
@@ -1099,17 +1059,17 @@ export function LandingPage({
                 </ScrollReveal>
               </div>
 
-              {/* Row 2: 1 wide + 2 small */}
+              {/* Row 2: 3 cards */}
               <div className="grid md:grid-cols-3 gap-4">
                 <ScrollReveal delay={0.1}>
-                  <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] hover:border-white/[0.12] h-full">
+                  <div className="group rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 transition-all hover:bg-white/[0.03] hover:border-white/[0.1] h-full">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform shrink-0">
                         <Lock className="h-5 w-5" />
                       </div>
                       <div>
                         <h3 className="text-sm font-bold">Zero Proxy</h3>
-                        <span className="text-[10px] text-zinc-600">Locally runs</span>
+                        <span className="text-[10px] text-zinc-600">Runs locally</span>
                       </div>
                     </div>
                     <p className="text-xs text-zinc-400 leading-relaxed">
@@ -1121,9 +1081,9 @@ export function LandingPage({
                 </ScrollReveal>
 
                 <ScrollReveal delay={0.15}>
-                  <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] hover:border-white/[0.12] h-full">
+                  <div className="group rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 transition-all hover:bg-white/[0.03] hover:border-white/[0.1] h-full">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="h-10 w-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform shrink-0">
+                      <div className="h-10 w-10 rounded-xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform shrink-0">
                         <Database className="h-5 w-5" />
                       </div>
                       <div>
@@ -1139,9 +1099,9 @@ export function LandingPage({
                 </ScrollReveal>
 
                 <ScrollReveal delay={0.2}>
-                  <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] hover:border-white/[0.12] h-full">
+                  <div className="group rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 transition-all hover:bg-white/[0.03] hover:border-white/[0.1] h-full">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="h-10 w-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform shrink-0">
+                      <div className="h-10 w-10 rounded-xl bg-violet-500/10 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform shrink-0">
                         <BarChart3 className="h-5 w-5" />
                       </div>
                       <div>
@@ -1157,10 +1117,10 @@ export function LandingPage({
                 </ScrollReveal>
               </div>
 
-              {/* Row 3: 1 large card centered */}
+              {/* Row 3: 1 centered card */}
               <ScrollReveal delay={0.25}>
                 <div className="max-w-2xl mx-auto">
-                  <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 sm:p-8 transition-all hover:bg-white/[0.04] hover:border-white/[0.12]">
+                  <div className="group rounded-2xl border border-white/[0.05] bg-white/[0.015] p-6 sm:p-8 transition-all hover:bg-white/[0.03] hover:border-white/[0.1]">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="h-10 w-10 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform shrink-0">
                         <Sparkles className="h-5 w-5" />
@@ -1202,7 +1162,7 @@ export function LandingPage({
 
             <div className="grid md:grid-cols-2 gap-6">
               <ScrollReveal>
-                <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.02] p-6 sm:p-8 h-full">
+                <div className="rounded-2xl border border-emerald-500/15 bg-emerald-500/[0.015] p-6 sm:p-8 h-full">
                   <h3 className="text-sm font-bold text-emerald-400 mb-4 flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4" />
                     Stays in your process
@@ -1229,26 +1189,26 @@ export function LandingPage({
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <div className="rounded-2xl border border-purple-500/20 bg-purple-500/[0.02] p-6 sm:p-8 h-full">
-                  <h3 className="text-sm font-bold text-purple-400 mb-4 flex items-center gap-2">
+                <div className="rounded-2xl border border-violet-500/15 bg-violet-500/[0.015] p-6 sm:p-8 h-full">
+                  <h3 className="text-sm font-bold text-violet-400 mb-4 flex items-center gap-2">
                     <Cpu className="h-4 w-4" />
                     Sent to Poly Cloud (only)
                   </h3>
                   <ul className="space-y-3 text-xs sm:text-sm text-zinc-400">
                     <li className="flex items-start gap-2.5">
-                      <span className="text-purple-400 mt-0.5 shrink-0">→</span>
-                      <span>Field names and types — <code className="text-purple-300 bg-purple-500/10 px-1.5 py-0.5 rounded text-xs">full_name → name</code></span>
+                      <span className="text-violet-400 mt-0.5 shrink-0">→</span>
+                      <span>Field names and types — <code className="text-violet-300 bg-violet-500/10 px-1.5 py-0.5 rounded text-xs">full_name → name</code></span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-purple-400 mt-0.5 shrink-0">→</span>
+                      <span className="text-violet-400 mt-0.5 shrink-0">→</span>
                       <span>Schema structure — nesting, arrays, enums</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-purple-400 mt-0.5 shrink-0">→</span>
+                      <span className="text-violet-400 mt-0.5 shrink-0">→</span>
                       <span>Drift type classification — rename, remove, etc.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-purple-400 mt-0.5 shrink-0">→</span>
+                      <span className="text-violet-400 mt-0.5 shrink-0">→</span>
                       <span><strong className="text-zinc-300">No values, no payloads</strong> — just shapes</span>
                     </li>
                   </ul>
@@ -1264,10 +1224,10 @@ export function LandingPage({
           className="px-4 sm:px-6 pb-20 sm:pb-24"
         >
           <ScrollReveal className="max-w-2xl mx-auto">
-            <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-b from-cyan-500/[0.04] to-transparent p-8 sm:p-10 text-center">
+            <div className="rounded-2xl border border-sky-500/15 bg-gradient-to-b from-sky-500/[0.03] to-transparent p-8 sm:p-10 text-center">
               <Badge
                 variant="outline"
-                className="border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-medium mb-5 px-4 py-1.5 rounded-full"
+                className="border-sky-500/25 bg-sky-500/[0.08] text-sky-300 text-xs font-medium mb-5 px-4 py-1.5 rounded-full"
               >
                 <Sparkles className="h-3 w-3 mr-1.5" aria-hidden="true" />
                 Free during beta
@@ -1298,7 +1258,7 @@ export function LandingPage({
                 <Button
                   size="lg"
                   onClick={onEnterDashboard}
-                  className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500 text-white font-semibold rounded-xl px-8 h-12 min-h-[44px]"
+                  className="bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-300 hover:to-emerald-400 text-[#070708] font-semibold rounded-xl px-8 h-12 min-h-[44px]"
                 >
                   Get started free
                   <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
@@ -1311,7 +1271,7 @@ export function LandingPage({
         {/* ───────── Final CTA ───────── */}
         <section aria-label="Get started" className="px-4 sm:px-6 pb-20 sm:pb-24">
           <ScrollReveal className="max-w-3xl mx-auto text-center">
-            <div className="rounded-3xl border border-purple-500/20 bg-gradient-to-b from-purple-500/[0.06] to-transparent p-8 sm:p-14">
+            <div className="rounded-3xl border border-teal-500/15 bg-gradient-to-b from-teal-500/[0.04] to-transparent p-8 sm:p-14">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-4">
                 Stop fearing API changes.
               </h2>
@@ -1324,15 +1284,12 @@ export function LandingPage({
                   size="lg"
                   onClick={onEnterDashboard}
                   aria-label="Open the Poly Dashboard"
-                  className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500 text-white font-semibold text-base rounded-xl px-8 h-12 min-h-[44px] shadow-lg shadow-purple-500/20 focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
+                  className="bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-300 hover:to-emerald-400 text-[#070708] font-semibold text-base rounded-xl px-8 h-12 min-h-[44px] shadow-lg shadow-teal-500/20 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070708]"
                 >
                   Open Dashboard
-                  <ArrowRight
-                    className="h-4 w-4 ml-2"
-                    aria-hidden="true"
-                  />
+                  <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
                 </Button>
-                <code className="text-xs text-zinc-500 bg-white/[0.05] px-4 py-2.5 rounded-lg font-mono border border-white/[0.08] select-all">
+                <code className="text-xs text-zinc-500 bg-white/[0.04] px-4 py-2.5 rounded-lg font-mono border border-white/[0.06] select-all">
                   npm i github:Pritahi121/poly-sdk
                 </code>
               </div>
@@ -1341,8 +1298,8 @@ export function LandingPage({
         </section>
       </main>
 
-      {/* ───────── Footer (Enhanced) ───────── */}
-      <footer className="mt-auto border-t border-white/[0.06] pt-10 sm:pt-14 pb-8 px-4 sm:px-6">
+      {/* ───────── Footer ───────── */}
+      <footer className="mt-auto border-t border-white/[0.05] pt-10 sm:pt-14 pb-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
             {/* Product */}
@@ -1407,7 +1364,7 @@ export function LandingPage({
           </div>
 
           {/* Bottom bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-white/[0.04]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-white/[0.03]">
             <div className="flex items-center gap-2">
               <img
                 src="/logo.svg"
