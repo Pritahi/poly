@@ -11,17 +11,19 @@ function applyWhere(query: any, key: string, value: any): any {
   if (value !== null && typeof value === "object" && !Array.isArray(value) && !(value instanceof Date)) {
     // Operator object: { gte: Date } or { lt: number }
     for (const [op, opVal] of Object.entries(value)) {
+      const v = opVal instanceof Date ? opVal.toISOString() : opVal;
       switch (op) {
-        case "gte": query = query.gte(key, opVal); break;
-        case "lte": query = query.lte(key, opVal); break;
-        case "gt": query = query.gt(key, opVal); break;
-        case "lt": query = query.lt(key, opVal); break;
-        case "neq": query = query.neq(key, opVal); break;
+        case "gte": query = query.gte(key, v); break;
+        case "lte": query = query.lte(key, v); break;
+        case "gt": query = query.gt(key, v); break;
+        case "lt": query = query.lt(key, v); break;
+        case "neq": query = query.neq(key, v); break;
         default: query = query.eq(key, value); // fallback
       }
     }
   } else {
-    query = query.eq(key, value);
+    const v = value instanceof Date ? value.toISOString() : value;
+    query = query.eq(key, v);
   }
   return query;
 }
