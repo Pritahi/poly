@@ -17,7 +17,6 @@ import {
   FlaskConical,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 export type PageId =
@@ -38,23 +37,37 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
-// UX order: Monitor → Manage → Configure → Learn → Settings
-const navItems: NavItem[] = [
-  // Group 1: Monitor (most visited, highest priority)
-  { id: "overview", label: "Overview", icon: <LayoutDashboard className="h-4 w-4" /> },
-  { id: "incidents", label: "Incidents", icon: <AlertTriangle className="h-4 w-4" /> },
-  { id: "patches", label: "Patch History", icon: <GitBranch className="h-4 w-4" /> },
-  { id: "usage", label: "Usage", icon: <BarChart3 className="h-4 w-4" /> },
-  // Group 2: Manage (setup & connect)
-  { id: "projects", label: "Projects", icon: <FolderKanban className="h-4 w-4" /> },
-  { id: "api-keys", label: "API Keys", icon: <Key className="h-4 w-4" /> },
-  // Group 3: Configure
-  { id: "rules", label: "Rules", icon: <Shield className="h-4 w-4" /> },
-  // Group 4: Learn & Test
-  { id: "sdk", label: "SDK", icon: <Code2 className="h-4 w-4" /> },
-  { id: "test-lab", label: "Test Lab", icon: <FlaskConical className="h-4 w-4" /> },
-  // Group 5: Settings (last)
-  { id: "settings", label: "Settings", icon: <Settings className="h-4 w-4" /> },
+const navGroups = [
+  {
+    label: "Monitor",
+    items: [
+      { id: "overview" as PageId, label: "Overview", icon: <LayoutDashboard className="h-4 w-4" /> },
+      { id: "incidents" as PageId, label: "Incidents", icon: <AlertTriangle className="h-4 w-4" /> },
+      { id: "patches" as PageId, label: "Patch History", icon: <GitBranch className="h-4 w-4" /> },
+      { id: "usage" as PageId, label: "Usage", icon: <BarChart3 className="h-4 w-4" /> },
+    ],
+  },
+  {
+    label: "Manage",
+    items: [
+      { id: "projects" as PageId, label: "Projects", icon: <FolderKanban className="h-4 w-4" /> },
+      { id: "api-keys" as PageId, label: "API Keys", icon: <Key className="h-4 w-4" /> },
+      { id: "rules" as PageId, label: "Rules", icon: <Shield className="h-4 w-4" /> },
+    ],
+  },
+  {
+    label: "Learn",
+    items: [
+      { id: "sdk" as PageId, label: "SDK", icon: <Code2 className="h-4 w-4" /> },
+      { id: "test-lab" as PageId, label: "Test Lab", icon: <FlaskConical className="h-4 w-4" /> },
+    ],
+  },
+  {
+    label: "",
+    items: [
+      { id: "settings" as PageId, label: "Settings", icon: <Settings className="h-4 w-4" /> },
+    ],
+  },
 ];
 
 interface DashboardSidebarProps {
@@ -68,65 +81,58 @@ export function DashboardSidebar({ activePage, onNavigate }: DashboardSidebarPro
   return (
     <aside
       className={cn(
-        "flex flex-col border-r border-border bg-card transition-all duration-200 h-full",
-        collapsed ? "w-16" : "w-60"
+        "flex flex-col border-r border-border bg-white transition-all duration-200 h-full",
+        collapsed ? "w-16" : "w-56"
       )}
     >
       {/* Logo */}
       <div className="flex items-center gap-2 px-4 h-14 border-b border-border">
-        <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-          <Zap className="h-4 w-4" />
+        <div className="flex items-center justify-center h-7 w-7 bg-black text-white font-bold text-xs">
+          <Zap className="h-3.5 w-3.5" />
         </div>
-        {!collapsed && <span className="font-semibold text-lg tracking-tight">Poly</span>}
+        {!collapsed && <span className="font-bold text-lg tracking-tight text-black">Poly</span>}
       </div>
 
       {/* Nav Items */}
-      <nav className="flex-1 py-2 px-2 overflow-y-auto">
-        {/* Group 1: Monitor */}
-        <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">Monitor</p>
-        {navItems.filter(i => ["overview","incidents","patches","usage"].includes(i.id)).map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} className={cn("flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm font-medium transition-colors", activePage === item.id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground")}>
-            {item.icon}{!collapsed && <span>{item.label}</span>}
-          </button>
-        ))}
-        <Separator className="my-2" />
-        {/* Group 2: Manage */}
-        <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">Manage</p>
-        {navItems.filter(i => ["projects","api-keys","rules"].includes(i.id)).map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} className={cn("flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm font-medium transition-colors", activePage === item.id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground")}>
-            {item.icon}{!collapsed && <span>{item.label}</span>}
-          </button>
-        ))}
-        <Separator className="my-2" />
-        {/* Group 3: Learn */}
-        <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">Learn</p>
-        {navItems.filter(i => ["sdk","test-lab"].includes(i.id)).map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} className={cn("flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm font-medium transition-colors", activePage === item.id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground")}>
-            {item.icon}{!collapsed && <span>{item.label}</span>}
-          </button>
-        ))}
-        <Separator className="my-2" />
-        {/* Group 4: Settings */}
-        {navItems.filter(i => i.id === "settings").map((item) => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} className={cn("flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm font-medium transition-colors", activePage === item.id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground")}>
-            {item.icon}{!collapsed && <span>{item.label}</span>}
-          </button>
+      <nav className="flex-1 py-3 px-2 overflow-y-auto space-y-5">
+        {navGroups.map((group) => (
+          <div key={group.label}>
+            {group.label && !collapsed && (
+              <p className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+                {group.label}
+              </p>
+            )}
+            <div className="space-y-0.5">
+              {group.items.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  title={collapsed ? item.label : undefined}
+                  className={cn(
+                    "flex items-center gap-3 w-full px-3 py-2 text-sm font-medium transition-colors",
+                    "border border-transparent",
+                    activePage === item.id
+                      ? "bg-black text-white"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-black hover:border-gray-200"
+                  )}
+                >
+                  {item.icon}
+                  {!collapsed && <span>{item.label}</span>}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 
-      <Separator />
-
       {/* Collapse toggle */}
-      <div className="p-2 flex justify-center">
-        <Button
-          variant="ghost"
-          size="sm"
+      <div className="p-2 border-t border-border">
+        <button
           onClick={() => setCollapsed(!collapsed)}
-          className="w-full justify-center"
+          className="flex items-center justify-center gap-2 w-full py-1.5 text-xs text-gray-400 hover:text-black transition-colors"
         >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          {!collapsed && <span className="ml-2 text-xs">Collapse</span>}
-        </Button>
+          {collapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
+        </button>
       </div>
     </aside>
   );
