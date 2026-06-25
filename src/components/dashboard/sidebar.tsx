@@ -81,7 +81,7 @@ export function DashboardSidebar({ activePage, onNavigate }: DashboardSidebarPro
   return (
     <aside
       className={cn(
-        "flex flex-col border-r border-border bg-white transition-all duration-200 h-full",
+        "flex flex-col border-r border-border bg-white transition-all duration-200 h-full noise",
         collapsed ? "w-16" : "w-56"
       )}
     >

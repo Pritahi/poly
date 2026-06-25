@@ -90,7 +90,7 @@ export function OverviewPage() {
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="border border-border bg-white p-5 animate-pulse">
+            <div key={i} className="border border-border bg-white p-5 noise animate-pulse">
               <div className="h-16 bg-muted" />
             </div>
           ))}
@@ -131,7 +131,7 @@ export function OverviewPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {kpiCards.map((card) => (
-          <div key={card.title} className="border border-border bg-white p-4">
+          <div key={card.title} className="border border-border bg-white p-4 noise">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{card.title}</span>
               <span className={card.color}>{card.icon}</span>
@@ -144,7 +144,7 @@ export function OverviewPage() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <div className="lg:col-span-2 border border-border bg-white p-5">
+        <div className="lg:col-span-2 border border-border bg-white p-5 noise">
           <h3 className="text-sm font-bold  mb-4">Request & Drift Activity</h3>
           <p className="text-[11px] text-muted-foreground -mt-3 mb-4">30-day trend</p>
           <div className="h-60">
@@ -161,7 +161,7 @@ export function OverviewPage() {
           </div>
         </div>
 
-        <div className="border border-border bg-white p-5">
+        <div className="border border-border bg-white p-5 noise">
           <h3 className="text-sm font-bold  mb-4">Severity</h3>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
@@ -187,7 +187,7 @@ export function OverviewPage() {
       </div>
 
       {/* Recent Incidents */}
-      <div className="border border-border bg-white p-5">
+      <div className="border border-border bg-white p-5 noise">
         <h3 className="text-sm font-bold  mb-1">Recent Incidents</h3>
         <p className="text-[11px] text-muted-foreground mb-4">Latest schema drift events</p>
         <div className="space-y-2 max-h-56 overflow-y-auto">
