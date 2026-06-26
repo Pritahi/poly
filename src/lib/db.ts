@@ -6,9 +6,12 @@ import { supabase } from "./supabase";
 
 type Filter = Record<string, any>;
 
-// Simple ID generator (replaces Prisma's @default(cuid()))
+// UUID v4 generator — no dependencies, works everywhere
 function generateId(): string {
-  return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
 }
 
 // Helper: apply a where clause with operator support (eq, gte, lte, gt, lt)
@@ -65,7 +68,6 @@ async function count(table: string, where?: Filter) {
 }
 
 async function create(table: string, data: any) {
-  // Auto-generate ID if not provided (replaces Prisma's @default(cuid()))
   if (!data.id) data.id = generateId();
   const { data: result, error } = await supabase.from(table).insert(data).select().single();
   if (error) throw error;
