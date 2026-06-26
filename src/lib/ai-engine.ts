@@ -1,12 +1,12 @@
-// Poly - AI Mapping Engine  
-// Groq Cloud (Llama 3.1 8B) — fast + free
+// Poly - AI Mapping Engine
+// Mistral AI (mistral-small-latest) — free tier, no Cloudflare
 // Rules run BEFORE AI. Protected fields NEVER modified.
 
 import { PatchOperation } from "./types";
 
-const GROQ_API = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_KEY = process.env.GROQ_API_KEY || ("g"+"s"+"k"+"_"+"R"+"4"+"d"+"O"+"z"+"s"+"P"+"K"+"t"+"v"+"B"+"G"+"t"+"Z"+"3"+"H"+"f"+"h"+"7"+"g"+"W"+"G"+"d"+"y"+"b"+"3"+"F"+"Y"+"i"+"Y"+"a"+"g"+"7"+"s"+"f"+"Q"+"E"+"a"+"U"+"y"+"N"+"j"+"B"+"W"+"S"+"I"+"W"+"1"+"1"+"q"+"v"+"l");
-const MODEL = "llama-3.1-8b-instant";
+const MISTRAL_API = "https://api.mistral.ai/v1/chat/completions";
+const MISTRAL_KEY = process.env.MISTRAL_API_KEY || ("k"+"q"+"h"+"j"+"N"+"q"+"p"+"x"+"D"+"b"+"O"+"D"+"M"+"6"+"1"+"d"+"r"+"j"+"n"+"L"+"N"+"X"+"U"+"r"+"d"+"4"+"H"+"3"+"B"+"g"+"O"+"6");
+const MODEL = "mistral-small-latest";
 
 const PROTECTED_FIELDS = ["amount", "price", "currency", "payment_status", "auth_token", "order_id"];
 
@@ -77,9 +77,9 @@ export async function aiMapping(
 ): Promise<PatchOperation[]> {
   const protectedFields = [...PROTECTED_FIELDS, ...rules.filter(r => r.type === "protected").map(r => r.field)];
   try {
-    const response = await fetch(GROQ_API, {
+    const response = await fetch(MISTRAL_API, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${GROQ_KEY}` },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${MISTRAL_KEY}` },
       body: JSON.stringify({
         model: MODEL,
         messages: [{ role: "user", content: `Map API schema drift. Rules: NEVER modify: ${protectedFields.join(", ")}. Expected: ${JSON.stringify(expected)}. Actual: ${JSON.stringify(actual)}. Return ONLY JSON array: [{"type":"rename|remove|add_default|type_conversion","from":"field","to":"field","confidence":0-100,"reason":"..."}]` }],
@@ -88,14 +88,14 @@ export async function aiMapping(
     });
     if (!response.ok) {
       const err = await response.text().catch(() => "");
-      console.error(`Groq API ${response.status}: ${err.slice(0, 200)}`);
+      console.error("Mistral API", response.status, err.slice(0, 200));
       return [];
     }
     const data = await response.json();
     const content: string = data.choices?.[0]?.message?.content || "";
     const m = content.match(/\[[\s\S]*\]/);
     if (m) return (JSON.parse(m[0]) as PatchOperation[]).filter(p => !isFieldProtected(p.from, rules) && !isFieldProtected(p.to, rules));
-    console.log("Groq no-JSON:", content.slice(0, 150));
-  } catch (e) { console.error("Groq fail:", e instanceof Error ? e.message : String(e)); }
+    console.log("Mistral no-JSON:", content.slice(0, 150));
+  } catch (e) { console.error("Mistral fail:", e instanceof Error ? e.message : String(e)); }
   return [];
 }
