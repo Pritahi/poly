@@ -27,7 +27,7 @@ import {
   getCacheStats,
 } from "./cache";
 
-const DEFAULT_ENDPOINT = process.env.POLY_CLOUD_ENDPOINT || "https://poly-pritahis-projects.vercel.app";
+const DEFAULT_ENDPOINT = process.env.POLY_CLOUD_ENDPOINT || "https://poly-sigma-ashy.vercel.app";
 const DEFAULT_CONFIDENCE_THRESHOLD = 98;
 
 // Singleton state

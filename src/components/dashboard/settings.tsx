@@ -186,7 +186,7 @@ export function SettingsPage() {
               <Separator />
               <div className="space-y-2">
                 <Label>API Endpoint Override</Label>
-                <Input placeholder="https://api.poly.dev" />
+                <Input placeholder="https://poly-sigma-ashy.vercel.app" />
                 <p className="text-xs text-muted-foreground">Custom Poly Cloud endpoint (for self-hosted)</p>
               </div>
               <Button onClick={saveSettings}>Save Advanced Settings</Button>

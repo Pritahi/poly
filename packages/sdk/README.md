@@ -49,7 +49,7 @@ Poly.init({
   apiKey: "poly_live_xxx",
 
   // Custom endpoint (for self-hosted)
-  endpoint: "https://api.poly.dev",
+  endpoint: "https://poly-sigma-ashy.vercel.app",
 
   // Confidence threshold for auto-patching (default: 98)
   confidenceThreshold: 98,

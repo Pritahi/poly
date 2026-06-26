@@ -10,7 +10,7 @@ exports.Poly = void 0;
 const schema_1 = require("./schema");
 const transformer_1 = require("./transformer");
 const cache_1 = require("./cache");
-const DEFAULT_ENDPOINT = process.env.POLY_CLOUD_ENDPOINT || "https://poly-pritahis-projects.vercel.app";
+const DEFAULT_ENDPOINT = process.env.POLY_CLOUD_ENDPOINT || "https://poly-sigma-ashy.vercel.app";
 const DEFAULT_CONFIDENCE_THRESHOLD = 98;
 // Singleton state
 let config = null;
