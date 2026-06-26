@@ -124,7 +124,7 @@ Generate patch operations as a JSON array. Each patch should have:
 Return ONLY a valid JSON array of patches, no other text.`;
 
     const response = await chat({
-      model: "gemini-2.0-flash",
+      model: "glm-4",
       messages: [{ role: "user", content: prompt }],
     });
 
