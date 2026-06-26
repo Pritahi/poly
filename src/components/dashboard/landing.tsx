@@ -234,11 +234,11 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
     const order: SimStep[] = ["request","response","drift","cloud","patch","done"];
     const idx = order.indexOf(simStep);
     if (idx < order.length - 1) {
-      const t = setTimeout(() => setSimStep(order[idx + 1]), 1200);
+      const t = setTimeout(() => setSimStep(order[idx + 1]), 2000);
       return () => clearTimeout(t);
     }
     if (simStep === "done") {
-      const t = setTimeout(() => { setIsPlaying(false); setAutoPlay(false); }, 800);
+      const t = setTimeout(() => { setIsPlaying(false); setAutoPlay(false); }, 1500);
       return () => clearTimeout(t);
     }
   }, [simStep, autoPlay, isPlaying]);
@@ -441,7 +441,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
               </div>
 
               {/* Content */}
-              <div className="p-6 sm:p-10 min-h-[320px] flex flex-col items-center justify-center bg-muted/30">
+              <div className="p-6 sm:p-10 min-h-[380px] flex flex-col items-center justify-center bg-muted/30">
                 {simStep === "idle" ? (
                   <div className="text-center space-y-4 py-4">
                     <div className="h-16 w-16 rounded-2xl bg-teal-100 flex items-center justify-center mx-auto mb-2">
@@ -473,7 +473,12 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
                           <p className="text-sm text-muted-foreground mt-0.5">{activePhase?.sub}</p>
                         </div>
                       </div>
-                      {activePhase?.code && <CodeBlock label={activePhase.code.label} lines={activePhase.code.lines} />}
+                      {<div className="flex flex-col sm:flex-row gap-6 items-center justify-center">
+                      {activePhase?.code && <div className="flex-1 w-full"><CodeBlock label={activePhase.code.label} lines={activePhase.code.lines} /></div>}
+                      <div className="shrink-0">
+                        <PolyMascot currentStep={simStep} />
+                      </div>
+                    </div>}
                       {isDone && (
                         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
                           className="flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-5 py-4">

@@ -136,6 +136,37 @@
   }
 }
 
+
+/* ─── Poly button texture (subtle glass edge) ─── */
+@utility btn-poly {
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(255,255,255,0.04) 100%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+}
 @utility noise-hover {
   &::after {
     transition: opacity 0.2s ease;
