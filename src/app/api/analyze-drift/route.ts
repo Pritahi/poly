@@ -6,6 +6,27 @@ import { generateCacheKey, getCachedPatch, setCachedPatch, invalidateCache } fro
 import { validatePatch } from "@/lib/patches";
 import { ruleBasedMapping, aiMapping } from "@/lib/ai-engine";
 
+// Resolve tenantId: try API key first, fallback to project ID
+async function resolveProject(tenantId: string): Promise<{ projectId: string } | null> {
+  try {
+    // Check if tenantId is an API key
+    const apiKey = await db.apiKey.findFirst({ where: { key: tenantId, status: "active" } });
+    if (apiKey) {
+      // Mark key as used
+      await db.apiKey.update({ where: { id: apiKey.id }, data: { lastUsed: new Date().toISOString() } }).catch(() => {});
+      return { projectId: apiKey.projectId };
+    }
+
+    // Check if tenantId is a project ID directly
+    const project = await db.project.findFirst({ where: { id: tenantId } });
+    if (project) return { projectId: tenantId };
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -14,6 +35,10 @@ export async function POST(req: NextRequest) {
     if (!tenantId || !endpoint) {
       return NextResponse.json({ error: "tenantId and endpoint are required" }, { status: 400 });
     }
+
+    // Resolve project from API key or direct ID
+    const projectRef = await resolveProject(tenantId);
+    const projectId = projectRef?.projectId || tenantId;
 
     // Check cache first
     const responseSignature = JSON.stringify(actualSchema).slice(0, 100);
@@ -76,13 +101,12 @@ export async function POST(req: NextRequest) {
       setCachedPatch(cacheKey, tenantId, endpoint, method || "GET", "api", responseSignature, allowed, analysisConfidence);
     }
 
-    // Create incident record
-    try {
-      const project = await db.project.findFirst({ where: { id: tenantId } });
-      if (project && (driftEvents.length > 0 || allowed.length > 0 || blocked.length > 0)) {
-        await db.incident.create({
+    // Create incident record (with resolved project)
+    if (projectRef && (driftEvents.length > 0 || allowed.length > 0 || blocked.length > 0)) {
+      try {
+        const incident = await db.incident.create({
           data: {
-            projectId: tenantId,
+            projectId,
             endpoint,
             method: method || "GET",
             severity: allowed.length > 0 ? "medium" : "high",
@@ -98,7 +122,8 @@ export async function POST(req: NextRequest) {
         for (const patch of allowed) {
           await db.patchHistory.create({
             data: {
-              projectId: tenantId,
+              projectId,
+              incidentId: incident.id,
               endpoint,
               patchType: patch.type,
               fromPath: patch.from,
@@ -112,10 +137,9 @@ export async function POST(req: NextRequest) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         await db.usageMetric.upsert({
-          where: { projectId_date: { projectId: tenantId, date: today } },
-          create: {
-            projectId: tenantId,
-            date: today,
+          data: {
+            projectId,
+            date: today.toISOString(),
             requestsMonitored: 1,
             driftsDetected: driftEvents.length,
             autoFixed: shouldAutoPatch ? 1 : 0,
@@ -123,18 +147,11 @@ export async function POST(req: NextRequest) {
             cacheHits: cachedPatches ? 1 : 0,
             cacheMisses: cachedPatches ? 0 : 1,
           },
-          update: {
-            requestsMonitored: { increment: 1 },
-            driftsDetected: { increment: driftEvents.length },
-            autoFixed: { increment: shouldAutoPatch ? 1 : 0 },
-            aiCalls: { increment: 1 },
-            cacheHits: { increment: cachedPatches ? 1 : 0 },
-            cacheMisses: { increment: cachedPatches ? 0 : 1 },
-          },
+          where: { projectId_date: { projectId, date: today } },
         });
+      } catch (dbError) {
+        console.error("DB write error (non-fatal):", dbError);
       }
-    } catch (dbError) {
-      console.error("DB write error (non-fatal):", dbError);
     }
 
     return NextResponse.json({
