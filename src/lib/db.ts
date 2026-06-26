@@ -6,10 +6,14 @@ import { supabase } from "./supabase";
 
 type Filter = Record<string, any>;
 
+// Simple ID generator (replaces Prisma's @default(cuid()))
+function generateId(): string {
+  return crypto.randomUUID();
+}
+
 // Helper: apply a where clause with operator support (eq, gte, lte, gt, lt)
 function applyWhere(query: any, key: string, value: any): any {
   if (value !== null && typeof value === "object" && !Array.isArray(value) && !(value instanceof Date)) {
-    // Operator object: { gte: Date } or { lt: number }
     for (const [op, opVal] of Object.entries(value)) {
       const v = opVal instanceof Date ? opVal.toISOString() : opVal;
       switch (op) {
@@ -61,12 +65,17 @@ async function count(table: string, where?: Filter) {
 }
 
 async function create(table: string, data: any) {
+  // Auto-generate ID if not provided (replaces Prisma's @default(cuid()))
+  if (!data.id) data.id = generateId();
   const { data: result, error } = await supabase.from(table).insert(data).select().single();
   if (error) throw error;
   return result;
 }
 
 async function createMany(table: string, data: any[]) {
+  for (const item of data) {
+    if (!item.id) item.id = generateId();
+  }
   const { data: result, error } = await supabase.from(table).insert(data).select();
   if (error) throw error;
   return result;
@@ -102,6 +111,7 @@ async function findFirst(table: string, where: Filter) {
 }
 
 async function upsert(table: string, data: any) {
+  if (!data.id) data.id = generateId();
   const { data: result, error } = await supabase.from(table).upsert(data).select().single();
   if (error) throw error;
   return result;
@@ -115,16 +125,11 @@ async function groupBy(table: string, column: string) {
     const val = row[column];
     counts[val] = (counts[val] || 0) + 1;
   });
-  // Return Prisma-compatible format: [{column: "val", _count: {column: N}}]
   return Object.entries(counts).map(([key, count]) => ({
     [column]: key,
     _count: { [column]: count },
   }));
 }
-
-// ==========================================
-// Typed model builders matching Prisma's API
-// ==========================================
 
 function model(name: string) {
   return {
@@ -155,10 +160,6 @@ function model(name: string) {
     },
   };
 }
-
-// ==========================================
-// DB export — same API as PrismaClient
-// ==========================================
 
 export const db = {
   user: model("User"),
