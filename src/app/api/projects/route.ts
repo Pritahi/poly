@@ -24,6 +24,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "name and userId are required" }, { status: 400 });
     }
 
+    // Auto-create user if doesn't exist (self-bootstrapping)
+    try {
+      const existingUser = await db.user.findFirst({ where: { id: userId } });
+      if (!existingUser) {
+        await db.user.create({
+          data: { id: userId, email: `${userId}@poly.dev`, role: "developer" },
+        });
+        console.log(`Auto-created user: ${userId}`);
+      }
+    } catch (e) {
+      console.log("User lookup/create error (non-fatal):", e);
+    }
+
     const project = await db.project.create({
       data: { name, description, userId },
     });
@@ -48,8 +61,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ project }, { status: 201 });
-  } catch (error) {
-    console.error("Create project error:", error);
-    return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Create project error:", error?.message || error);
+    return NextResponse.json({ error: `Failed to create project: ${error?.message || error}` }, { status: 500 });
   }
 }
