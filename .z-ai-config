@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://autoglm-api.autoglm.ai/autoclaw-proxy/proxy/autoclaw",
+  "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MjA3OCwiZGV2aWNlX2lkIjoiODUxYzhhYzYtOWNiNC00NzdhLWE4OWMtYzUzYjc4MmFhOGJhIiwic291cmNlX2lkIjoiYXV0b2NsYXdhY2Nlc3NfdG9rZW4iLCJndWlkIjoiIiwiaXNfZ3Vlc3QiOmZhbHNlLCJwb3dlciI6MCwiZXhwIjoxNzgyNTUxMjQxLCJpYXQiOjE3ODI0NjQ4NDEsImp0aSI6InByaXRhaGlydGhyZWUzM0BnbWFpbC5jb20ifQ.9ukMBfxaSoMDFsOPLy7WQRrKOnceOXmZocYtTbMzbpc"
+}
