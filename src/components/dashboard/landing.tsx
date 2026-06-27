@@ -273,59 +273,12 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
       <main id="main-content" className="flex-1 pt-14 sm:pt-16">
 
         {/* ═══════════ HERO ═══════════ */}
-        <section className="relative pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
-          {/* Animated gradient orbs */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-            <motion.div
-              animate={{ x: [0, 30, -20, 0], y: [0, -30, 20, 0] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-40 -left-20 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-teal-200/40 via-emerald-200/30 to-cyan-200/20 blur-[100px]"
-            />
-            <motion.div
-              animate={{ x: [0, -40, 30, 0], y: [0, 40, -30, 0] }}
-              transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-20 -right-32 w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-violet-200/30 via-fuchsia-200/20 to-pink-200/10 blur-[90px]"
-            />
-            <motion.div
-              animate={{ x: [0, 20, -10, 0], y: [0, -20, 30, 0] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-20 left-1/3 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-amber-200/30 via-orange-200/20 to-yellow-200/10 blur-[80px]"
-            />
-            <motion.div
-              animate={{ scale: [1, 1.1, 0.95, 1] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-teal-300/20 via-emerald-300/15 to-green-300/10 blur-[60px]"
-            />
-          </div>
-
-          {/* Subtle grid texture */}
-          <div className="pointer-events-none absolute inset-0 opacity-[0.025]"
-            style={{ backgroundImage: `radial-gradient(circle, #000 1px, transparent 1px)`, backgroundSize: '32px 32px' }} />
-
-          {/* Floating accent lines */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-            <motion.div
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/4 left-[15%] w-px h-32 bg-gradient-to-b from-teal-400/0 via-teal-400/40 to-teal-400/0"
-            />
-            <motion.div
-              animate={{ opacity: [0.4, 0.7, 0.4] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute top-1/3 right-[20%] w-px h-24 bg-gradient-to-b from-violet-400/0 via-violet-400/30 to-violet-400/0"
-            />
-            <motion.div
-              animate={{ opacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute bottom-1/3 left-[40%] w-24 h-px bg-gradient-to-r from-emerald-400/0 via-emerald-400/40 to-emerald-400/0"
-            />
-          </div>
-
+        <section className="relative pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6">
           <div className="relative max-w-4xl mx-auto text-center">
             <motion.div initial="hidden" animate="visible" variants={stagger} className="flex flex-col items-center">
 
               <motion.div variants={fadeUp} custom={0}>
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 bg-teal-50 border border-teal-200 px-4 py-1.5 rounded-full mb-8 shadow-sm shadow-teal-100">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 bg-teal-50 border border-teal-200 px-4 py-1.5 rounded-full mb-8">
                   <Zap className="h-3 w-3" /> Open Source · Free Beta
                 </span>
               </motion.div>
