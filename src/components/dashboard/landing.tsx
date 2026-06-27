@@ -269,13 +269,21 @@ function ComparisonCard({
       transition={{ delay, duration: 0.5 }}
       className={`rounded-2xl border ${cardClass} p-5 sm:p-8 h-full relative overflow-hidden`}
     >
-      {/* Subtle pulsing dot in corner */}
+      {/* Continuous highlight sweep — moves top to bottom, loops forever */}
       <motion.div
-        animate={inView ? { scale: [1, 1.4, 1], opacity: [0.3, 0.7, 0.3] } : {}}
-        transition={{ duration: 2, repeat: Infinity, delay: delay + 1 }}
-        className={`absolute top-4 right-4 h-3 w-3 rounded-full ${dotColorClass}`}
+        animate={{ top: ["-30%", "120%"] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: delay + 0.5 }}
+        className={`absolute left-0 right-0 h-[40%] pointer-events-none z-0 ${isBad ? "bg-gradient-to-b from-transparent via-rose-200/30 to-transparent" : "bg-gradient-to-b from-transparent via-emerald-200/40 to-transparent"}`}
       />
 
+      {/* Pulsing corner dot */}
+      <motion.div
+        animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.7, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity, delay: delay + 0.5 }}
+        className={`absolute top-4 right-4 h-3 w-3 rounded-full ${dotColorClass} z-10`}
+      />
+
+      <div className="relative z-10">
       {/* Title */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -369,6 +377,7 @@ function ComparisonCard({
           </motion.li>
         ))}
       </ul>
+      </div>
     </motion.div>
   );
 }
