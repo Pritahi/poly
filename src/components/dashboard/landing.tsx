@@ -234,11 +234,16 @@ function ComparisonCard({
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const isBad = side === "without";
 
-  const cardColors = isBad
+  // Hardcoded Tailwind classes (dynamic strings break JIT)
+  const cardClass = isBad
     ? "border-rose-200 bg-rose-50/40"
     : "border-emerald-200 bg-emerald-50/40";
-  const accentColor = isBad ? "rose" : "emerald";
-  const iconBg = isBad ? "bg-rose-100" : "bg-emerald-100";
+  const iconBgClass = isBad ? "bg-rose-100" : "bg-emerald-100";
+  const iconColorClass = isBad ? "text-rose-600" : "text-emerald-600";
+  const textAccentClass = isBad ? "text-rose-600" : "text-emerald-600";
+  const bgAccentClass = isBad ? "bg-rose-100" : "bg-emerald-100";
+  const dotColorClass = isBad ? "bg-rose-400" : "bg-emerald-400";
+  const badgeColorClass = isBad ? "text-rose-500" : "text-emerald-500";
 
   const itemVariants = {
     hidden: { opacity: 0, x: isBad ? -20 : 20 },
@@ -262,13 +267,13 @@ function ComparisonCard({
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay, duration: 0.5 }}
-      className={`rounded-2xl border ${cardColors} p-5 sm:p-8 h-full relative overflow-hidden`}
+      className={`rounded-2xl border ${cardClass} p-5 sm:p-8 h-full relative overflow-hidden`}
     >
       {/* Subtle pulsing dot in corner */}
       <motion.div
         animate={inView ? { scale: [1, 1.4, 1], opacity: [0.3, 0.7, 0.3] } : {}}
         transition={{ duration: 2, repeat: Infinity, delay: delay + 1 }}
-        className={`absolute top-4 right-4 h-3 w-3 rounded-full bg-${accentColor}-400`}
+        className={`absolute top-4 right-4 h-3 w-3 rounded-full ${dotColorClass}`}
       />
 
       {/* Title */}
@@ -281,14 +286,14 @@ function ComparisonCard({
         <motion.div
           animate={inView ? { rotate: [0, -5, 5, 0] } : {}}
           transition={{ duration: 0.6, delay: delay + 0.3 }}
-          className={`h-8 w-8 rounded-lg ${iconBg} flex items-center justify-center`}
+          className={`h-8 w-8 rounded-lg ${iconBgClass} flex items-center justify-center`}
         >
-          <span className={`text-${accentColor}-600`}>{icon}</span>
+          <span className={iconColorClass}>{icon}</span>
         </motion.div>
         <motion.h2
           animate={inView ? { scale: [0.9, 1.08, 1] } : {}}
           transition={{ duration: 0.5, delay: delay + 0.2 }}
-          className={`font-bold text-${accentColor}-600 text-lg`}
+          className={`font-bold ${textAccentClass} text-lg`}
         >
           {title}
         </motion.h2>
@@ -303,7 +308,7 @@ function ComparisonCard({
         dangerouslySetInnerHTML={{
           __html: story.replace(
             /<code>(.*?)<\/code>/g,
-            `<code class="text-${accentColor}-600 bg-${accentColor}-100 px-1.5 py-0.5 rounded text-xs font-mono">$1</code>`
+            `<code class="${textAccentClass} ${bgAccentClass} px-1.5 py-0.5 rounded text-xs font-mono">$1</code>`
           ),
         }}
       />
@@ -312,7 +317,7 @@ function ComparisonCard({
       <div className="rounded-xl bg-gray-900 border border-gray-800 overflow-hidden mb-4">
         <div className="flex items-center gap-2 px-4 py-2.5 border-b border-gray-800">
           <div className="flex gap-1.5">
-            <Circle className={`h-2.5 w-2.5 fill-${isBad ? "red" : "emerald"}-500 text-${isBad ? "red" : "emerald"}-500`} />
+            <Circle className={isBad ? "h-2.5 w-2.5 fill-red-500 text-red-500" : "h-2.5 w-2.5 fill-emerald-500 text-emerald-500"} />
             <Circle className="h-2.5 w-2.5 fill-amber-500 text-amber-500" />
             <Circle className="h-2.5 w-2.5 fill-emerald-500 text-emerald-500" />
           </div>
@@ -356,7 +361,7 @@ function ComparisonCard({
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={i}
-              className={`text-${accentColor}-500 font-bold`}
+              className={`${badgeColorClass} font-bold`}
             >
               {isBad ? "✗" : "✓"}
             </motion.span>
