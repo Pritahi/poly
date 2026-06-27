@@ -5,12 +5,21 @@ export async function GET() {
   try {
     const projects = await db.project.findMany({
       orderBy: { createdAt: "desc" },
-      include: {
-        _count: { select: { apiKeys: true, incidents: true, rules: true } },
-      },
     });
 
-    return NextResponse.json({ projects });
+    // Manually count related records (Supabase doesn't support Prisma-style include)
+    const projectsWithCounts = await Promise.all(
+      (projects || []).map(async (p: any) => {
+        const [apiKeys, incidents, rules] = await Promise.all([
+          db.apiKey.count({ where: { projectId: p.id } }),
+          db.incident.count({ where: { projectId: p.id } }),
+          db.rule.count({ where: { projectId: p.id } }),
+        ]).catch(() => [0, 0, 0]);
+        return { ...p, _count: { apiKeys, incidents, rules } };
+      })
+    );
+
+    return NextResponse.json({ projects: projectsWithCounts });
   } catch (error) {
     console.error("Projects API error:", error);
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
