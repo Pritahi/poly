@@ -730,30 +730,20 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
       {/* ───── Footer ───── */}
       <footer className="mt-auto border-t border-border pt-10 sm:pt-14 pb-8 px-4 sm:px-6 bg-muted">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-8 mb-10 max-w-md">
             <div>
               <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Product</h4>
               <ul className="space-y-2.5">
-                {["Dashboard","SDK Docs","API Reference","Changelog"].map(l => <li key={l}><a href="#" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">{l}</a></li>)}
+                <li><a href="https://github.com/Pritahi/poly-sdk#readme" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">SDK Docs ↗</a></li>
+                <li><a href="/about" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">About</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Resources</h4>
+              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Legal</h4>
               <ul className="space-y-2.5">
-                {["Documentation","Quick Start","Examples","Blog"].map(l => <li key={l}><a href="#" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">{l}</a></li>)}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Company</h4>
-              <ul className="space-y-2.5">
-                {["About","Privacy Policy","Terms of Service"].map(l => <li key={l}><a href="#" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">{l}</a></li>)}
+                <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">Terms of Service</a></li>
                 <li><a href="mailto:hello@poly.dev" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Community</h4>
-              <ul className="space-y-2.5">
-                {["Discord","Twitter / X"].map(l => <li key={l}><a href="#" className="text-sm text-muted-foreground hover:text-gray-800 transition-colors">{l}</a></li>)}
               </ul>
             </div>
           </div>
@@ -762,7 +752,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
               <div className="h-5 w-5 rounded bg-transparent p-0 flex items-center justify-center text-primary text-[10px] font-bold">P</div>
               <span className="text-sm text-muted-foreground">Poly — Survive Third-Party API Changes</span>
             </div>
-            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Poly · MIT License · v1.0.0</p>
+            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Poly · MIT License</p>
           </div>
         </div>
       </footer>
