@@ -288,24 +288,24 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
 
               <motion.div variants={fadeUp} custom={0}>
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 bg-teal-50 border border-teal-200 px-4 py-1.5 rounded-full mb-8">
-                  <Zap className="h-3 w-3" /> V1 — Now Live
+                  <Zap className="h-3 w-3" /> Open Source · Free Beta
                 </span>
               </motion.div>
 
               <motion.h1 variants={fadeUp} custom={1}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.06] mb-6 text-gray-900">
-                APIs break.
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.06] mb-6 text-gray-900 max-w-4xl">
+                APIs change.
                 <br />
-                <span className="bg-gradient-to-r from-[#6b8cce] via-[#8b9ef0] to-[#7bade0] bg-clip-text text-transparent">
-                  Your code doesn&apos;t have to.
+                <span className="bg-gradient-to-r from-[#0d9488] via-[#14b8a6] to-[#06b6d4] bg-clip-text text-transparent">
+                  Your app stays live.
                 </span>
               </motion.h1>
 
               <motion.p variants={fadeUp} custom={2}
                 className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-                Poly detects schema drift, generates safe mappings with AI, and patches
-                responses <strong className="text-gray-700 font-semibold">locally in-memory</strong>
-                {" "}— zero proxy, zero latency, zero downtime.
+                Poly detects breaking API changes, AI-generates safe fixes, and patches
+                responses <strong className="text-gray-700 font-semibold">before your code sees them</strong>
+                {" "}— zero proxy, zero deploy, zero downtime.
               </motion.p>
 
               <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
