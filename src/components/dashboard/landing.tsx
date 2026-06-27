@@ -216,6 +216,159 @@ function ArchitectureFlow() {
 }
 
 /* ═══════════════════════════════════════════════
+   COMPARISON CARD (Animated)
+   ═══════════════════════════════════════════════ */
+function ComparisonCard({
+  side, delay, title, icon, codeLines, badItems, goodItems, story,
+}: {
+  side: "without" | "with";
+  delay: number;
+  title: string;
+  icon: React.ReactNode;
+  codeLines: string[];
+  badItems?: string[];
+  goodItems?: string[];
+  story: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const isBad = side === "without";
+
+  const cardColors = isBad
+    ? "border-rose-200 bg-rose-50/40"
+    : "border-emerald-200 bg-emerald-50/40";
+  const accentColor = isBad ? "rose" : "emerald";
+  const iconBg = isBad ? "bg-rose-100" : "bg-emerald-100";
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: isBad ? -20 : 20 },
+    visible: (i: number) => ({
+      opacity: 1, x: 0,
+      transition: { delay: delay + i * 0.25, duration: 0.5, ease: "easeOut" },
+    }),
+  };
+
+  const pulseVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: [0.8, 1.15, 1],
+      opacity: 1,
+      transition: { delay: delay + 0.8, duration: 0.7, ease: "easeOut" },
+    },
+  };
+
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ delay, duration: 0.5 }}
+      className={`rounded-2xl border ${cardColors} p-5 sm:p-8 h-full relative overflow-hidden`}
+    >
+      {/* Subtle pulsing dot in corner */}
+      <motion.div
+        animate={inView ? { scale: [1, 1.4, 1], opacity: [0.3, 0.7, 0.3] } : {}}
+        transition={{ duration: 2, repeat: Infinity, delay: delay + 1 }}
+        className={`absolute top-4 right-4 h-3 w-3 rounded-full bg-${accentColor}-400`}
+      />
+
+      {/* Title */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ delay: delay + 0.15, duration: 0.4 }}
+        className="flex items-center gap-2 mb-4"
+      >
+        <motion.div
+          animate={inView ? { rotate: [0, -5, 5, 0] } : {}}
+          transition={{ duration: 0.6, delay: delay + 0.3 }}
+          className={`h-8 w-8 rounded-lg ${iconBg} flex items-center justify-center`}
+        >
+          <span className={`text-${accentColor}-600`}>{icon}</span>
+        </motion.div>
+        <motion.h2
+          animate={inView ? { scale: [0.9, 1.08, 1] } : {}}
+          transition={{ duration: 0.5, delay: delay + 0.2 }}
+          className={`font-bold text-${accentColor}-600 text-lg`}
+        >
+          {title}
+        </motion.h2>
+      </motion.div>
+
+      {/* Story text with highlight animation */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ delay: delay + 0.4, duration: 0.5 }}
+        className="text-sm text-muted-foreground leading-relaxed mb-4"
+        dangerouslySetInnerHTML={{
+          __html: story.replace(
+            /<code>(.*?)<\/code>/g,
+            `<code class="text-${accentColor}-600 bg-${accentColor}-100 px-1.5 py-0.5 rounded text-xs font-mono">$1</code>`
+          ),
+        }}
+      />
+
+      {/* Code block with line-by-line reveal */}
+      <div className="rounded-xl bg-gray-900 border border-gray-800 overflow-hidden mb-4">
+        <div className="flex items-center gap-2 px-4 py-2.5 border-b border-gray-800">
+          <div className="flex gap-1.5">
+            <Circle className={`h-2.5 w-2.5 fill-${isBad ? "red" : "emerald"}-500 text-${isBad ? "red" : "emerald"}-500`} />
+            <Circle className="h-2.5 w-2.5 fill-amber-500 text-amber-500" />
+            <Circle className="h-2.5 w-2.5 fill-emerald-500 text-emerald-500" />
+          </div>
+          <span className="text-[10px] text-gray-500 font-mono ml-2">{isBad ? "crash.log" : "output.log"}</span>
+        </div>
+        <pre className="p-4 text-xs sm:text-sm font-mono leading-relaxed">
+          {codeLines.map((line, i) => {
+            let cls = "text-gray-300";
+            if (line.includes("undefined") || line.includes("CRASH")) cls = "text-rose-400";
+            else if (line.includes("✓") || line.includes("John Doe") || line.includes("WORKS")) cls = "text-emerald-400";
+            else if (line.startsWith("//")) cls = "text-gray-600 italic";
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: isBad ? -10 : 10 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: delay + 0.6 + i * 0.15, duration: 0.35 }}
+                className="flex"
+              >
+                <span className="text-gray-700 w-8 shrink-0 select-none text-right mr-4">{i + 1}</span>
+                <span className={cls}>{line}</span>
+              </motion.div>
+            );
+          })}
+        </pre>
+      </div>
+
+      {/* Bullet points with staggered entry + scale pulse */}
+      <ul className="space-y-2 text-xs text-muted-foreground">
+        {(isBad ? badItems : goodItems)?.map((item, i) => (
+          <motion.li
+            key={i}
+            custom={i}
+            variants={itemVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="flex items-center gap-2"
+          >
+            <motion.span
+              variants={pulseVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              custom={i}
+              className={`text-${accentColor}-500 font-bold`}
+            >
+              {isBad ? "✗" : "✓"}
+            </motion.span>
+            {item}
+          </motion.li>
+        ))}
+      </ul>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
    LANDING PAGE
    ═══════════════════════════════════════════════ */
 export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void }) {
@@ -325,53 +478,44 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
         <section className="px-4 sm:px-6 pb-20 sm:pb-28">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-              <ScrollReveal>
-                <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-5 sm:p-8 h-full">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="h-8 w-8 rounded-lg bg-rose-100 flex items-center justify-center"><Bug className="h-4 w-4 text-rose-600" /></div>
-                    <h2 className="font-bold text-rose-600 text-lg">Without Poly</h2>
-                  </div>
-                  <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
-                    <p>Third-party API renames <code className="text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded text-xs font-mono">name</code>{" "}
-                      to <code className="text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded text-xs font-mono">full_name</code>.
-                      Your app crashes in production at 3 AM.</p>
-                    <div className="rounded-xl"><CodeBlock label="crash.log" lines={[
-                      "// API response changed silently",
-                      "const user = res.data",
-                      "console.log(user.name)",
-                      "// → undefined  💥 CRASH",
-                    ]} /></div>
-                    <ul className="space-y-2 text-xs text-muted-foreground">
-                      <li className="flex items-center gap-2"><span className="text-rose-500 font-bold">✗</span> Page breaks for all users</li>
-                      <li className="flex items-center gap-2"><span className="text-rose-500 font-bold">✗</span> Emergency deploys at midnight</li>
-                      <li className="flex items-center gap-2"><span className="text-rose-500 font-bold">✗</span> Angry customers, lost revenue</li>
-                    </ul>
-                  </div>
-                </div>
-              </ScrollReveal>
-              <ScrollReveal delay={0.1}>
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-5 sm:p-8 h-full">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="h-8 w-8 rounded-lg bg-emerald-100 flex items-center justify-center"><Wrench className="h-4 w-4 text-emerald-600" /></div>
-                    <h2 className="font-bold text-emerald-600 text-lg">With Poly</h2>
-                  </div>
-                  <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
-                    <p>Poly&apos;s SDK detects the drift, asks AI for a safe mapping, and patches the
-                      response <span className="text-emerald-600 font-semibold">before your code even sees it</span>.</p>
-                    <div className="rounded-xl"><CodeBlock label="output.log" lines={[
-                      "// Poly patches response in-memory",
-                      "const user = res.data",
-                      "console.log(user.name)",
-                      '// → "John Doe"  ✓ WORKS',
-                    ]} /></div>
-                    <ul className="space-y-2 text-xs text-muted-foreground">
-                      <li className="flex items-center gap-2"><span className="text-emerald-500 font-bold">✓</span> Zero downtime, instant fix</li>
-                      <li className="flex items-center gap-2"><span className="text-emerald-500 font-bold">✓</span> No deploy needed</li>
-                      <li className="flex items-center gap-2"><span className="text-emerald-500 font-bold">✓</span> Users never notice anything</li>
-                    </ul>
-                  </div>
-                </div>
-              </ScrollReveal>
+              {/* Without Poly */}
+              <ComparisonCard
+                side="without"
+                delay={0}
+                title="Without Poly"
+                icon={<Bug className="h-4 w-4" />}
+                codeLines={[
+                  "// API response changed silently",
+                  "const user = res.data",
+                  "console.log(user.name)",
+                  "// → undefined  💥 CRASH",
+                ]}
+                badItems={[
+                  "Page breaks for all users",
+                  "Emergency deploys at midnight",
+                  "Angry customers, lost revenue",
+                ]}
+                story="Third-party API renames <code>name</code> to <code>full_name</code>. Your app crashes in production at 3 AM."
+              />
+              {/* With Poly */}
+              <ComparisonCard
+                side="with"
+                delay={0.3}
+                title="With Poly"
+                icon={<Wrench className="h-4 w-4" />}
+                codeLines={[
+                  "// Poly patches response in-memory",
+                  "const user = res.data",
+                  "console.log(user.name)",
+                  '// → "John Doe"  ✓ WORKS',
+                ]}
+                goodItems={[
+                  "Zero downtime, instant fix",
+                  "No deploy needed",
+                  "Users never notice anything",
+                ]}
+                story='Poly\'s SDK detects the drift, asks AI for a safe mapping, and patches the response <span class="text-emerald-600 font-semibold">before your code even sees it</span>.'
+              />
             </div>
           </div>
         </section>
