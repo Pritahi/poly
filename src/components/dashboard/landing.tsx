@@ -519,7 +519,7 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
                   "No deploy needed",
                   "Users never notice anything",
                 ]}
-                story='Poly\'s SDK detects the drift, asks AI for a safe mapping, and patches the response <span class="text-emerald-600 font-semibold">before your code even sees it</span>.'
+                story="Poly&apos;s SDK detects the drift, asks AI for a safe mapping, and patches the response <span class='text-emerald-600 font-semibold'>before your code even sees it</span>."
               />
             </div>
           </div>
