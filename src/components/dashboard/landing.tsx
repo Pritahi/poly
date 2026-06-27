@@ -419,22 +419,26 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
             <div className="rounded-2xl border border-border bg-white shadow-xl shadow-gray-100 overflow-hidden">
               {/* Progress bar */}
               <div className="flex items-center border-b border-border px-3 sm:px-5 py-3 gap-1 overflow-x-auto bg-muted/50">
-                {PHASES.filter(p => p.id !== "done").map((phase, i) => {
-                  const pIdx = PHASES.findIndex(p => p.id === simStep);
+                {PHASES.map((phase, i) => {
+                  const allPhases = PHASES;
+                  const pIdx = allPhases.findIndex(p => p.id === simStep);
                   const isActive = phase.id === simStep;
                   const isPast = i < pIdx;
+                  const isDone = phase.id === "done";
                   return (
                     <div key={phase.id} className="flex items-center gap-1 shrink-0">
-                      <div className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-all duration-500 ${
-                        isActive ? (phase.id === "drift" ? "bg-rose-100 text-rose-700 border border-rose-200" : "bg-teal-100 text-teal-700 border border-teal-200")
-                        : isPast ? "bg-emerald-50 text-emerald-600"
-                        : "text-muted-foreground"
+                      <button
+                        onClick={() => { setSimStep(phase.id); setIsPlaying(true); setAutoPlay(false); }}
+                        className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer hover:opacity-80 ${
+                        isActive ? (isDone ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : phase.id === "drift" ? "bg-rose-100 text-rose-700 border border-rose-200" : "bg-teal-100 text-teal-700 border border-teal-200")
+                        : isPast ? "bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                        : "text-muted-foreground hover:bg-gray-100"
                       }`}>
-                        {isPast ? <CheckCircle2 className="h-3 w-3" /> : <span className={`h-2 w-2 rounded-full ${isActive ? (phase.id==="drift"?"bg-rose-500 animate-pulse":"bg-teal-500 animate-pulse") : "bg-gray-300"}`} />}
-                        <span className="hidden sm:inline">{phase.title.split(" ")[0]}</span>
-                        <span className="sm:hidden">{phase.title.charAt(0)}</span>
-                      </div>
-                      {i < 4 && <ChevronRight className="h-3 w-3 text-gray-300 shrink-0" />}
+                        {isPast ? <CheckCircle2 className="h-3 w-3" /> : <span className={`h-2 w-2 rounded-full ${isActive ? (isDone ? "bg-emerald-500 animate-pulse" : phase.id==="drift"?"bg-rose-500 animate-pulse":"bg-teal-500 animate-pulse") : "bg-gray-300"}`} />}
+                        <span className="hidden sm:inline">{isDone ? "✓" : phase.title.split(" ")[0]}</span>
+                        <span className="sm:hidden">{isDone ? "✓" : phase.title.charAt(0)}</span>
+                      </button>
+                      {i < allPhases.length - 1 && <ChevronRight className="h-3 w-3 text-gray-300 shrink-0" />}
                     </div>
                   );
                 })}

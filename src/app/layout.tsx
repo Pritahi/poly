@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "Poly — Survive Third-Party API Changes",
   description: "Detect schema drift, generate safe mappings, and apply transformations locally. Never proxy traffic through Poly.",
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.png",
   },
 };
 
