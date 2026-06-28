@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useAuth } from "@/components/supabase-auth-provider";
 import { DashboardSidebar, PageId } from "@/components/dashboard/sidebar";
 import { LandingPage } from "@/components/dashboard/landing";
 import { OverviewPage } from "@/components/dashboard/overview";
@@ -29,15 +29,15 @@ const pageComponents: Record<PageId, React.ComponentType> = {
 };
 
 export default function Dashboard() {
-  const { data: session, status } = useSession();
+  const { user, loading, signInWithGoogle } = useAuth();
   const [showDashboard, setShowDashboard] = useState(false);
   const [activePage, setActivePage] = useState<PageId>("overview");
 
   // Show landing page if not in dashboard mode
   if (!showDashboard) {
     return <LandingPage onEnterDashboard={() => {
-      if (!session) {
-        signIn("google");
+      if (!user) {
+        signInWithGoogle();
       } else {
         setShowDashboard(true);
       }
@@ -45,7 +45,7 @@ export default function Dashboard() {
   }
 
   // Loading state while checking session
-  if (status === "loading") {
+  if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
         <div className="animate-pulse h-8 w-8 rounded-full bg-teal-500" />
@@ -54,8 +54,8 @@ export default function Dashboard() {
   }
 
   // Redirect to login if not authenticated
-  if (!session) {
-    signIn("google");
+  if (!user) {
+    signInWithGoogle();
     return null;
   }
 

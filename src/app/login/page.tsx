@@ -1,22 +1,20 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/components/supabase-auth-provider";
 
 export default function LoginPage() {
-  const { data: session, status } = useSession();
+  const { user, loading, signInWithGoogle } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/");
-    }
-  }, [status, router]);
+    if (user) router.push("/");
+  }, [user, router]);
 
-  if (status === "loading") {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="animate-pulse h-6 w-6 rounded-full bg-teal-500" />
@@ -24,9 +22,7 @@ export default function LoginPage() {
     );
   }
 
-  if (status === "authenticated") {
-    return null;
-  }
+  if (user) return null;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -42,7 +38,7 @@ export default function LoginPage() {
         </div>
 
         <Button
-          onClick={() => signIn("google", { callbackUrl: "/" })}
+          onClick={() => signInWithGoogle()}
           size="lg"
           className="w-full bg-white border border-border text-gray-700 hover:bg-gray-50 h-12 text-base font-medium shadow-sm"
         >

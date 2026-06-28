@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useAuth } from "@/components/supabase-auth-provider";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -145,23 +145,23 @@ export function DashboardSidebar({ activePage, onNavigate }: DashboardSidebarPro
 }
 
 function SidebarUser({ collapsed }: { collapsed: boolean }) {
-  const { data: session } = useSession();
+  const { user, signOut } = useAuth();
 
-  if (!session?.user) return null;
+  if (!user) return null;
 
   return (
     <div className="flex items-center gap-2">
-      {session.user.image && (
-        <img src={session.user.image} alt="" className="h-7 w-7 rounded-full shrink-0" />
+      {user.user_metadata?.avatar_url && (
+        <img src={user.user_metadata.avatar_url} alt="" className="h-7 w-7 rounded-full shrink-0" />
       )}
       {!collapsed && (
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-medium text-gray-900 truncate">{session.user.name}</p>
-          <p className="text-[10px] text-muted-foreground truncate">{session.user.email}</p>
+          <p className="text-xs font-medium text-gray-900 truncate">{user.user_metadata?.full_name || user.email}</p>
+          <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>
         </div>
       )}
       <button
-        onClick={() => signOut({ callbackUrl: "/" })}
+        onClick={() => signOut().then(() => window.location.reload())}
         className="text-[10px] text-muted-foreground hover:text-rose-600 transition-colors shrink-0"
         title="Sign out"
       >
