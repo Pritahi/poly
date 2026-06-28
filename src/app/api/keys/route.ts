@@ -55,7 +55,14 @@ export async function POST(req: NextRequest) {
     const key = generateApiKey();
 
     // Auto-create user in public table if not exists (syncs Supabase Auth → public.User)
-    await db.user.createIfNotExists(userId);
+    const existingUser = await db.user.findFirst({ where: { id: userId } });
+    if (!existingUser) {
+      await db.user.upsert({
+        where: { id: userId },
+        create: { id: userId, email: userId + "@unknown.poly", role: "developer" },
+        update: {},
+      });
+    }
 
     const apiKey = await db.apiKey.create({
       data: { key, name, projectId, userId },
