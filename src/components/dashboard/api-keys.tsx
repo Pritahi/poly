@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
+import { useAuth } from "@/components/supabase-auth-provider";
 import {
   Dialog,
   DialogContent,
@@ -45,6 +46,7 @@ interface Project {
 }
 
 export function ApiKeysPage() {
+  const { user } = useAuth();
   const [keys, setKeys] = useState<ApiKeyItem[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,7 +77,7 @@ export function ApiKeysPage() {
     const res = await fetch("/api/keys", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newKeyName, projectId: selectedProject, userId: "demo_user" }),
+      body: JSON.stringify({ name: newKeyName, projectId: selectedProject, userId: user?.id }),
     });
     const data = await res.json();
     setNewlyCreatedKey(data.apiKey?.key || null);

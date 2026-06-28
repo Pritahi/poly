@@ -133,6 +133,14 @@ async function groupBy(table: string, column: string) {
   }));
 }
 
+async function createIfNotExists(table: string, id: string, defaults?: any) {
+  const existing = await findFirst(table, { id });
+  if (!existing) {
+    return create(table, { id, ...defaults });
+  }
+  return existing;
+}
+
 function model(name: string) {
   return {
     findMany: (options?: any) => findMany(name, options),
@@ -147,6 +155,9 @@ function model(name: string) {
     },
     createMany: (options: { data: any[] }) => {
       return createMany(name, options.data);
+    },
+    createIfNotExists: (id: string, defaults?: any) => {
+      return createIfNotExists(name, id, defaults);
     },
     update: (options: { where: Filter; data: any }) => {
       return update(name, options.where, options.data);

@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
+import { useAuth } from "@/components/supabase-auth-provider";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +31,7 @@ interface Project {
 }
 
 export function ProjectsPage() {
+  const { user } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -51,7 +53,7 @@ export function ProjectsPage() {
     await fetch("/api/projects", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newName, description: newDesc, userId: "demo_user" }),
+      body: JSON.stringify({ name: newName, description: newDesc, userId: user?.id }),
     });
     setNewName("");
     setNewDesc("");
