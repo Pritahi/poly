@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CardSkeleton } from "@/components/ui/skeleton";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   Dialog,
   DialogContent,
@@ -102,7 +104,19 @@ export function ApiKeysPage() {
     });
   };
 
-  if (loading) return <div className="animate-pulse space-y-4"><div className="h-64 bg-muted rounded" /></div>;
+  if (loading) return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">API Keys</h2>
+          <p className="text-muted-foreground">Manage keys for Poly SDK authentication</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CardSkeleton /><CardSkeleton />
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
@@ -191,10 +205,13 @@ export function ApiKeysPage() {
         </CardHeader>
         <CardContent>
           {keys.length === 0 ? (
-            <div className="flex flex-col items-center py-8">
-              <Key className="h-8 w-8 text-muted-foreground mb-2" />
-              <p className="text-sm text-muted-foreground">No API keys yet</p>
-            </div>
+            <EmptyState
+              icon={Key}
+              title="No API keys yet"
+              description="Generate your first API key to connect the Poly SDK and start monitoring."
+              action={{ label: "Generate Key", onClick: () => setDialogOpen(true) }}
+              className="py-8"
+            />
           ) : (
             <Table>
               <TableHeader>

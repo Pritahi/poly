@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { TableRowSkeleton } from "@/components/ui/skeleton";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   Table,
   TableBody,
@@ -81,7 +83,19 @@ export function IncidentsPage() {
     );
   };
 
-  if (loading) return <div className="animate-pulse h-96 bg-muted rounded" />;
+  if (loading) return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold tracking-tight">Incidents</h2>
+        <p className="text-muted-foreground">Track and manage API schema drift events</p>
+      </div>
+      <Card>
+        <CardContent className="p-0">
+          <TableRowSkeleton /><TableRowSkeleton /><TableRowSkeleton /><TableRowSkeleton /><TableRowSkeleton />
+        </CardContent>
+      </Card>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
@@ -163,8 +177,13 @@ export function IncidentsPage() {
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
-                    No incidents match your filters
+                  <TableCell colSpan={8}>
+                    <EmptyState
+                      icon={AlertTriangle}
+                      title={incidents.length === 0 ? "No incidents yet" : "No incidents match your filters"}
+                      description={incidents.length === 0 ? "API drift events will appear here once your SDK starts monitoring." : "Try adjusting your search or filter criteria."}
+                      className="py-10"
+                    />
                   </TableCell>
                 </TableRow>
               ) : (

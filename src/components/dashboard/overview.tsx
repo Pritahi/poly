@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { StatCardSkeleton } from "@/components/ui/skeleton";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -89,11 +90,7 @@ export function OverviewPage() {
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="border border-border bg-white p-5 animate-pulse">
-              <div className="h-16 bg-muted" />
-            </div>
-          ))}
+          <StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton />
         </div>
       </div>
     );

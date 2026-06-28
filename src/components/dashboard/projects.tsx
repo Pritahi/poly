@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CardSkeleton } from "@/components/ui/skeleton";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   Dialog,
   DialogContent,
@@ -58,7 +60,19 @@ export function ProjectsPage() {
   };
 
   if (loading) {
-    return <div className="animate-pulse space-y-4"><div className="h-32 bg-muted rounded" /><div className="h-32 bg-muted rounded" /></div>;
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">Projects</h2>
+            <p className="text-muted-foreground">Manage your API integration projects</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <CardSkeleton /><CardSkeleton /><CardSkeleton />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -99,13 +113,12 @@ export function ProjectsPage() {
       </div>
 
       {projects.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-16">
-            <FolderKanban className="h-12 w-12 text-muted-foreground mb-4" />
-            <p className="text-lg font-medium">No projects yet</p>
-            <p className="text-sm text-muted-foreground">Create your first project to start monitoring API schemas</p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          icon={FolderKanban}
+          title="No projects yet"
+          description="Create your first project to start monitoring API schemas for drift."
+          action={{ label: "Create Project", onClick: () => setDialogOpen(true) }}
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((project) => (
