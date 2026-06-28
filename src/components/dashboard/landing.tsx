@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useSession, signIn, signOut } from "next-auth/react";
 import {
   ArrowRight,
   Shield,
@@ -386,6 +387,7 @@ function ComparisonCard({
    LANDING PAGE
    ═══════════════════════════════════════════════ */
 export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void }) {
+  const { data: session } = useSession();
   const [simStep, setSimStep] = useState<SimStep>("idle");
   const [isPlaying, setIsPlaying] = useState(false);
   const [autoPlay, setAutoPlay] = useState(false);
@@ -429,10 +431,22 @@ export function LandingPage({ onEnterDashboard }: { onEnterDashboard: () => void
             <code className="hidden sm:inline text-xs text-muted-foreground bg-muted px-3 py-2 rounded-lg font-mono border border-border select-all">
               npm i github:Pritahi/poly-sdk
             </code>
-            <Button size="sm" onClick={onEnterDashboard}
-              className="bg-transparent p-0 hover:bg-transparent p-0/90 text-primary font-semibold rounded-xl px-4 h-10">
-              Dashboard <ChevronRight className="h-3.5 w-3.5 ml-1" />
-            </Button>
+            {session ? (
+              <div className="flex items-center gap-2">
+                {session.user?.image && (
+                  <img src={session.user.image} alt="" className="h-7 w-7 rounded-full" />
+                )}
+                <Button size="sm" onClick={onEnterDashboard}
+                  className="bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl px-4 h-9 text-sm">
+                  Dashboard <ChevronRight className="h-3.5 w-3.5 ml-1" />
+                </Button>
+              </div>
+            ) : (
+              <Button size="sm" onClick={() => signIn("google")}
+                className="bg-white border border-border text-gray-700 hover:bg-gray-50 font-medium rounded-xl px-4 h-9 text-sm shadow-sm">
+                Sign in
+              </Button>
+            )}
           </div>
         </nav>
       </header>

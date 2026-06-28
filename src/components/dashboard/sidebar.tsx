@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -125,15 +126,47 @@ export function DashboardSidebar({ activePage, onNavigate }: DashboardSidebarPro
         ))}
       </nav>
 
+      {/* User + Sign out */}
+      <div className="p-3 border-t border-border">
+        <SidebarUser collapsed={collapsed} />
+      </div>
+
       {/* Collapse toggle */}
       <div className="p-2 border-t border-border">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="flex items-center justify-center gap-2 w-full py-1.5 text-xs text-muted-foreground hover: transition-colors"
+          className="flex items-center justify-center gap-2 w-full py-1.5 text-xs text-muted-foreground hover:text-gray-700 transition-colors"
         >
           {collapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
         </button>
       </div>
     </aside>
+  );
+}
+
+function SidebarUser({ collapsed }: { collapsed: boolean }) {
+  const { data: session } = useSession();
+
+  if (!session?.user) return null;
+
+  return (
+    <div className="flex items-center gap-2">
+      {session.user.image && (
+        <img src={session.user.image} alt="" className="h-7 w-7 rounded-full shrink-0" />
+      )}
+      {!collapsed && (
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-medium text-gray-900 truncate">{session.user.name}</p>
+          <p className="text-[10px] text-muted-foreground truncate">{session.user.email}</p>
+        </div>
+      )}
+      <button
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className="text-[10px] text-muted-foreground hover:text-rose-600 transition-colors shrink-0"
+        title="Sign out"
+      >
+        {collapsed ? "←" : "Sign out"}
+      </button>
+    </div>
   );
 }
